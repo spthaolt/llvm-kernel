@@ -1,0 +1,9 @@
+#SConscript for libc/locale
+
+import glob
+
+Import("env")
+env = env.Clone()
+objs = env.StaticObject(Glob('*.c')) 
+Return('objs')
+

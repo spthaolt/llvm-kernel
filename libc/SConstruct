@@ -17,7 +17,7 @@ env.Append(CCFLAGS = "-nostdinc -isystem ../include -Iinclude")
 env.Append(CPPDEFINES = ["_LIBC", "_REENTRANT"])
  
 Export("env")
-objs = env.SConscript(dirs = ['gen', 'inet', 'regex', 'resolv'])
+objs = env.SConscript(dirs = ['gen', 'inet', 'locale', 'regex', 'resolv'])
 objs += env.SConscript(dirs = ['net', 'stdio', 'stdlib', 'string'])
 objs += env.SConscript('time/SConstruct')
 env.StaticLibrary('libc', objs)

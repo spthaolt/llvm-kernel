@@ -1,0 +1,22 @@
+# SConstruct file for libc
+
+env = Environment()
+env.Replace(CC = 'clang')
+env.Replace(AR = 'llvm-ar')
+env.Replace(AS = 'llvm-as')
+env.Replace(LD = 'llvm-ld')
+env.Replace(RANLIB = 'llvm-ranlib')
+
+#-Xclang -nostdinc -Xclang -isystem -Xclang ../../include 
+#-Xclang -I -Xclang ../include/ -O2 -emit-llvm -v -c
+env.Append(CCFLAGS = "-Xclang -nostdinc")
+env.Append(CCFLAGS = "-Xclang -isystem -Xclang ../include")
+env.Append(CCFLAGS = "-Iinclude")
+env.Append(CCFLAGS = "-emit-llvm")
+env.Append(CPPDEFINES = ["_LIBC", "_REENTRANT"])
+ 
+Export("env")
+objs = env.SConscript(dirs = ['gen', 'inet', 'regex', 'resolv'])
+objs += env.SConscript(dirs = ['stdio', 'stdlib', 'string'])
+objs += env.SConscript('time/SConstruct')
+env.StaticLibrary('libc', objs)

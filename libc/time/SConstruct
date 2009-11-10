@@ -1,0 +1,11 @@
+#SConscript for libc/time
+
+import glob
+
+Import("env")
+env = env.Clone()
+env.Append(CPPDEFINES = 'ALL_STATE')
+env.Append(CPPDEFINES = 'USG_COMPAT')
+objs = env.StaticObject(Glob('*.c')) 
+Return('objs')
+

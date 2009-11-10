@@ -1,0 +1,10 @@
+#SConscript for libc/string
+
+import glob
+
+Import("env")
+env = env.Clone()
+env.Append(CPPFLAGS = '-Ilocale')
+objs = env.StaticObject(Glob('*.c')) 
+Return('objs')
+

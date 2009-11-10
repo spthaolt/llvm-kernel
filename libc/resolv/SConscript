@@ -1,0 +1,11 @@
+#SConscript for libc/resolv
+
+import glob
+
+Import("env")
+env = env.Clone()
+env.Append(CPPDEFINES = 'COMPAT__RES')
+env.Append(CPPDEFINES = 'USE_POLL')
+objs = env.StaticObject(Glob('*.c')) 
+Return('objs')
+

@@ -1,0 +1,10 @@
+#SConscript for libc/stdio
+
+import glob
+
+Import("env")
+env = env.Clone()
+env.Append(CPPDEFINES = 'WIDE_DOUBLE')
+objs = env.StaticObject(Glob('*.c')) 
+Return('objs')
+

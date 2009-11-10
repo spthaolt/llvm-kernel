@@ -1,0 +1,10 @@
+#SConscript for libc/regex
+
+import glob
+
+Import("env")
+env = env.Clone()
+env.Append(CPPDEFINES = 'POSIX_MISTAKE')
+objs = env.StaticObject(['regcomp.c', 'regerror.c', 'regexec.c', 'regfree.c']) 
+Return('objs')
+

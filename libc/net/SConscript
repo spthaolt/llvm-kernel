@@ -1,0 +1,13 @@
+#SConscript for libc/net
+
+import glob
+
+Import("env")
+env = env.Clone()
+env.Append(LEXFLAGS  = '-P _nsyy') 
+env.Append(YACCFLAGS = '-d -p _nsyy')
+env.CFile(target = 'nslexer.c', source = 'nslexer.l')
+env.CFile(target = 'nsparser.c', source = 'nsparser.y')
+objs = env.StaticObject(Glob('*.c')) 
+Return('objs')
+

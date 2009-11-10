@@ -1,1 +1,1 @@
-./sys/sha1.h
+sys/sha1.h

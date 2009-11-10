@@ -1,1 +1,1 @@
-./sys/rmd160.h
+sys/rmd160.h

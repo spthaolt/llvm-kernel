@@ -1,18 +1,19 @@
 # SConstruct file for libc
 
 env = Environment()
-env.Replace(CC = 'clang')
+env.Replace(CC = 'clang-cc')
 env.Replace(AR = 'llvm-ar')
 env.Replace(AS = 'llvm-as')
 env.Replace(LD = 'llvm-ld')
 env.Replace(RANLIB = 'llvm-ranlib')
 
+# Settings related to .bc files
+env.Replace(OBJSUFFIX = '.bc')
+env.Replace(CCCOM = env['CCCOM'].replace('-c','-emit-llvm-bc'))
+
 #-Xclang -nostdinc -Xclang -isystem -Xclang ../../include 
 #-Xclang -I -Xclang ../include/ -O2 -emit-llvm -v -c
-env.Append(CCFLAGS = "-Xclang -nostdinc")
-env.Append(CCFLAGS = "-Xclang -isystem -Xclang ../include")
-env.Append(CCFLAGS = "-Iinclude")
-env.Append(CCFLAGS = "-emit-llvm")
+env.Append(CCFLAGS = "-nostdinc -isystem ../include -Iinclude")
 env.Append(CPPDEFINES = ["_LIBC", "_REENTRANT"])
  
 Export("env")

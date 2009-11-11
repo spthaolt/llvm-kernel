@@ -9,7 +9,7 @@ env.Replace(RANLIB = 'llvm-ranlib')
 
 # Settings related to .bc files
 env.Replace(OBJSUFFIX = '.bc')
-env.Replace(CCCOM = env['CCCOM'].replace('-c','-emit-llvm-bc'))
+env.Replace(CCCOM = env['CCCOM'].replace(' -c ',' -emit-llvm-bc '))
 
 #-Xclang -nostdinc -Xclang -isystem -Xclang ../../include 
 #-Xclang -I -Xclang ../include/ -O2 -emit-llvm -v -c

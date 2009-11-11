@@ -4,6 +4,8 @@ import glob
 
 Import("env")
 env = env.Clone()
+# TODO(andrei): add sed for YY_BUF_SIZE
+# change it from 16384 to 1024
 env.Append(LEXFLAGS  = '-P _nsyy') 
 env.Append(YACCFLAGS = '-d -p _nsyy')
 env.CFile(target = 'nslexer.c', source = 'nslexer.l')

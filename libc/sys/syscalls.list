@@ -1,0 +1,246 @@
+# List of all syscalls 
+# Argument types:
+# h     = char
+# x     = void
+# i     = 32-bit integer
+# l     = 64-bit integer
+# s     = NULL-terminated string
+# v     = vararg
+# r     = structure, name after =
+#
+# Argument qualifiers:
+# p     = generic pointer
+# I     = copied on input
+# O     = copied on output
+# b#    = byte length of parameter #
+# c#    = count of items in parameter #
+# q     = pair
+#
+# strong_name   syscall_index       weak_names      index
+
+# file operations
+pipe            pipe                -               i(iqO)
+open            open                -               i(s,i,i)
+dup             dup                 -               i(i)
+dup2            dup2                -               i(i,i)
+close           close               _close          i(i,i)
+lseek           lseek               -               l(i,l,i)
+send            send                -               i(i,xpI,ib1,i)
+sendto          sendto              -               i(i,xpI,ib1,rpI=sockaddr,ib3)
+sendmsg         sendmsg             -               i(i,rpI=msghdr,i)
+recv            recv                -               i(i,xpO,ib1,i)
+recvfrom        recvfrom            -               i(i,xpO,i,i,rpIO=sockaddr,ipb3IO)
+recvmsg         recvmsg             -               i(i,rpI=msghdr,i)
+read            read                -               i(i,xpO,ib1)
+pread           pread               -               i(i,xpO,ib1,l)
+readv           readv               -               i(i,rpI=iovec,ic1)
+preadv          preadv              -               i(i,rpI=iovec,ic1,l)
+write           write               -               i(i,xpI,ib1)
+pwrite          pwrite              -               i(i,xpI,ib1,l)
+writev          writev              -               i(i,rpI=iovec,ic1)
+pwritev         pwritev             -               i(i,rpI=iovec,ic1,l)
+select          __select50          -               i(i,rpIO=fd_set,rpIO=fd_set,rpIO=fd_set,rpIO=timeval)
+pselect         __pselect50         -               i(i,rpIO=fd_set,rpIO=fd_set,rpIO=fd_set,rpIO=timeval,rpIO=sigset_t)
+poll            poll                -               i(rpIO=pollfd,ic0,i)
+pollts          __pollts50          -               i(rpIO=pollfd,ic0,rpI=timespec,rpI=sigset_t)
+fcntl           fcntl               _fcntl          i(i,i,v)
+ioctl           ioctl               -               i(i,i,xp)
+
+chdir           chdir               -               i(s)
+fchdir          fchdir              -               i(i)
+link            link                -               i(s,s)
+symlink         symlink             -               i(s,s)
+readlink        readlink            -               i(s,hpO,ib1)
+mkdir           mkdir               -               i(s,i)
+mkfifo          mkfifo              -               i(s,i)
+mknod           __mknod50           -               i(s,i,i)
+rename          rename              -               i(s,s)
+revoke          revoke              -               i(s)
+truncate        truncate            -               i(s,l)
+ftruncate       ftruncate           -               i(i,l)
+undelete        undelete            -               i(s)
+unlink          unlink              -               i(s)
+rmdir           rmdir               -               i(s)
+umask           umask               -               i(i)
+
+sync            sync                -               Ex()
+fdatasync       fdatasync           -               i(i)
+fsync           fsync               -               i(i)
+fsync_range     fsync_range         -               i(i,i,l,l)
+flock           flock               -               i(i,i)
+
+stat            __stat50            -               i(s,rpO=stat)
+lstat           __lstat50           -               i(s,rpO=stat)
+fstat           __fstat50           -               i(i,rpO=stat)
+statvfs         statvfs             -               i(s,rpO=statvfs)
+statvfs1        statvfs1            -               i(s,rpO=statvfs)
+fstatvfs        fstatvfs            -               i(i,rpO=statvfs)
+fstatvfs1       fstatvfs1           -               i(i,rpO=statvfs)
+pathconf        pathconf            -               i(s,i)
+fpathconf       fpathconf           -               i(i,i)
+
+chflags         chflags             -               i(s,i)
+lchflags        lchflags            -               i(s,i)
+fchflags        fchflags            -               i(i,i)
+chmod           chflags             -               i(s,i)
+lchmod          lchflags            -               i(s,i)
+fchmod          fchflags            -               i(s,i)
+chown           chflags             -               i(s,i)
+lchown          lchflags            -               i(s,i)
+fchown          fchflags            -               i(i,i,i)
+
+# socket operations
+socket          __socket30          -               i(i,i,i)
+socketpair      socketpair          -               i(i,i,iqO)
+accept          accept              _accept         i(i,rpIO=sockaddr,ipb1IO)
+bind            bind                -               i(i,rpI=sockaddr,ib1)
+connect         connect             _connect        i(i,rpI=sockaddr,ib1)
+listen          listen              -               i(i,i)
+
+# get/set *id-related
+getgid          getgid              -               Ei()
+getegid         getegid             -               Ei()
+getpgrp         getpgrp             -               Ei()
+getpgid         getpgid             -               Ei()
+getpid          getpid              -               Ei()
+getppid         getppid             -               Ei()
+getsid          getsid              -               Ei()
+getuid          getuid              -               Ei()
+issetugid       issetugid           -               Ei()
+setpgid         setpgid             -               i(i,i)
+setpgrp         setpgrp             -               i(i,i)
+setregid        setregid            -               i(i,i)
+setreuid        setreuid            -               i(i,i)
+setsid          setsid              -               i()
+setuid          setuid              -               i(i)
+seteuid         seteuid             -               i(i)
+setgid          setgid              -               i(i)
+setegid         setegid             -               i(i)
+
+# process-related
+fork            fork                -               i()
+kill            kill                -               i(i,i)
+chroot          chroot              -               i(s)
+fchroot         fchroot             -               i(i)
+vfork           vfork               -               i()
+wait            wait                -               i(ipO)
+waitpid         waitpid             -               i(i,ipO,i)
+wait3           wait3               -               i(ipO,i,rpO=rusage)
+wait4           __wait450           -               i(i,ipO,i,rpO=rusage)
+_exit           exit                exit,_Exit      Ei(i)
+#execve          execve          i(sSS
+
+# MMap-related
+mlock           mlock               -           i(xp,i)
+munlock         munlock             -           i(xp,i)
+mlockall        mlockall            -           i(i)
+munlockall      munlockall          -           i()
+mmap            mmap                -           xp:(xp,i,i,i,i,l)
+mprotect        mprotect            -           i(xp,i,i)
+mremap          mremap              -           xp:(xp,i,xp,i)
+msync           msync               -           i(xp,i,i)
+munmap          munmap              -           i(xp,i)
+madvise         madvise             -           i(xp,i,i)
+#mincore         mincore         i(pL0B0 # ???
+minherit        minherit            -           i(xp,i,i)
+
+# signal functions
+sigaction       __sigaction14       -           i(i,rpI=sigaction,rpO=sigaction)
+sigaltstack     __sigaltstack14     -           i(rpI=stack_t,rpO=stack_t)
+sigpending      __sigpending14      -           i(rpO=sigset_t)
+sigprocmask     __sigprocmask14     -           i(i,rpI=sigset_t,rpO=sigset_t)
+sigsuspend      __sigsuspend14      -           i(rpI=sigmask)
+
+msgctl          __msgctl50          -           i(i,i,rpIO=msqid_ds)
+msgget          msgget              -           i(i,i)
+msgrcv          msgrcv              -           i(i,xpO,ib1,i,i)
+msgsnd          msgsnd              -           i(i,xpI,ib1,i)
+
+____semctl50    ____semctl50        -           i(i,i,i,v)
+semget          semget              -           i(i,i,i)
+semop           semop               -           i(i,rpIO=sembuf,ic1)
+
+shmat           shmat               -           i(i,xp,i)
+shmdt           shmdt               -           i(xp)
+shmctl          shmctl              -           i(i,i,rpIO=shmid_ds)
+shmget          shmget              -           i(i,i,i)
+
+# misc
+____adjtime50   ____adjtime50       -           i(rpI=timeval,rpO=timeval)
+brk             brk                 _brk        i(xp)
+sbrk            sbrk                _sbrk       i(i)
+getcontext      getcontext          -           i(rpO=ucontext_t)
+setcontext      setcontext          -           i(rpI=ucontext_t)
+getdents        __getdents30        -           i(i,hpO,ib1)
+getgroups       getgroups           -           i(ic1,ipO)
+getlogin        __getlogin          -           s()
+getlogin_r      getlogin_r          -           i(hpO,ib0)
+setlogin        __setlogin          -           i(s)
+getpeername     getpeername         -           i(i,rpO=sockaddr,ipb1IO)
+nanosleep       __nanosleep50       -           i(rpI=timespec,rpO=timespec)
+reboot          reboot              -           i(i,s)
+shutdown        shutdown            -           i(i,i)
+setgroups       setgroups           -           i(ic1,ipI)
+getrlimit       getrlimit           -           i(i,rpO=rlimit)
+setrlimit       setrlimit           -           i(i,rpI=rlimit)
+getrusage       __getrusage50       -           i(i,rpO=rusage)
+syscall         syscall             -           i(i,v)
+__syscall       __syscall           -           l(l,v)
+posix_fadvise   __posix_fadvise50   -           Ei(i,i,i,i)
+access          access              -           i(s,i) 
+acct            acct                -           i(s)
+#__clone         clone               i(ppip      clone
+#kqueue          kqueue              i()
+#kevent          kevent              i(ib0L0B1L1p
+
+#swapon          swapon              i(s
+#clock_settime   clock_settime    
+#clock_gettime
+#clock_getres
+#fhopen
+#fhstat
+#fhstatvfs
+#fhstatvfs1
+#mount
+#unmount
+#nfssvc
+#getsockname
+#getsockopt
+#gettimeofday
+#getvfsstat
+#ktrace
+#fktrace
+#lfs_bmapv
+#lfs_markv
+#lfs_segclean
+#lfs_segwait
+#getpriority
+#setpriority
+#getitimer
+#setitimer
+#extattr
+#lwp_*
+#pmc_control
+#pmc_get_info
+#profil
+#ptrace
+#quotactl
+#rasctl
+#sa_enable
+#sa_register
+#sa_setconcurrency
+#sa_stacks
+#sa_yield
+#__sigtimedwait
+#sigwaitinfo
+#sigwait
+#swapctl
+#sysarch
+#__syscall
+#timer_create
+#timer_delete
+#timer_settime
+#utimes, lutimes, futimes
+#utrace
+#uuidgen
+#

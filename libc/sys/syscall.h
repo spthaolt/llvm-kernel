@@ -61,8 +61,8 @@
 /* syscall: "chown" ret: "int" args: "const char *" "uid_t" "gid_t" */
 #define	SYS_chown	16
 
-/* syscall: "break" ret: "int" args: "char *" */
-#define	SYS_break	17
+/* syscall: "brk" ret: "int" args: "char *" */
+#define	SYS_brk	17
 
 /* syscall: "compat_20_getfsstat" ret: "int" args: "struct statfs12 *" "long" "int" */
 #define	SYS_compat_20_getfsstat	18

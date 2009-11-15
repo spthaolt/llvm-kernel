@@ -106,7 +106,7 @@ def generate_wrappers(syscall_file_name, syscall_no):
             param_decl2 = ', ' + param_decl
         if ret_type != 'void':
             res_assign = '%res = '
-            res_name = ' %res'        
+            res_name = ' %res' 
 
         # Write the contents of the wrapper function
         print 'define %s @%s(%s) nounwind {' % (ret_type, name, param_decl)  

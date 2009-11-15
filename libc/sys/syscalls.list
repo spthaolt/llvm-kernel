@@ -1,6 +1,7 @@
 # List of all syscalls 
 # Argument types:
-# h     = char
+# h     = char (8-bit)
+# H     = short (16-bit)
 # o     = void
 # i     = 32-bit signed integer
 # l     = 64-bit signed integer
@@ -15,12 +16,12 @@
 # O     = copied on output
 # b#    = byte length of parameter #
 # c#    = count of items in parameter #
-# q     = pair
+# a[#]  = array of length #
 #
 # syscall_name      aliases         args
 
 # file operations
-pipe                _pipe           i(iqO)
+pipe                _pipe           i(ia[2]O)
 open                _open           i(s,i,ui)
 dup                 -               i(i)
 dup2                -               i(i,i)
@@ -93,7 +94,7 @@ fchown              -               i(i,ui,ui)
 
 # socket operations
 __socket30          -               i(i,i,i)
-socketpair          -               i(i,i,iqO)
+socketpair          -               i(i,i,ia[2]O)
 accept              _accept         i(i,SpIO=sockaddr,uipb1IO)
 bind                -               i(i,SpI=sockaddr,uib1)
 connect             _connect        i(i,SpI=sockaddr,uib1)
@@ -149,7 +150,7 @@ __sigaction14       -               i(i,SpI=sigaction,SpO=sigaction)
 __sigaltstack14     -               i(SpI=stack_t,SpO=stack_t)
 __sigpending14      -               i(SpO=sigset_t)
 __sigprocmask14     -               i(i,SpI=sigset_t,SpO=sigset_t)
-__sigsuspend14      -               i(SpI=sigmask)
+#__sigsuspend14      -               i(SpI=sigmask)
 
 __msgctl50          ___msgctl50     i(i,i,SpIO=msqid_ds)
 msgget              -               i(i,i)

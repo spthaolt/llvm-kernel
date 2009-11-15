@@ -1,0 +1,29 @@
+# List of all structures used by syscalls
+# For descriptions of types, see syscalls.list
+#
+
+sockaddr(uh,uh,ha[14])
+msghdr(op,uib0,Sp=iovec,uic2,op,uib4,i)
+iovec(op,uib0)
+fd_set(ia[8])
+timeval(l,i)
+sigset_t(uia[4])
+pollfd(i,H,H)
+timespec(l,i)
+stat(ul,ui,ul,ui,ui,ui,ul,S=timespec,S=timespec,S=timespec,S=timespec,l,l,ui,ui,ui,uia[2])
+fsid_t(ia[2])
+statvfs(ui,ui,ui,ui,ul,ul,ul,ul,ul,ul,ul,ul,ul,ul,ul,ul,S=fsid_t,ui,ui,ui,uia[4],ha[32],ha[1024],ha[1024])
+rusage(S=timeval,S=timeval,i,i,i,i,i,i,i,i,i,i,i,i,i,i)
+rlimit(ul,ul)
+stack_t(op,uib0,i)
+sigaction(op,S=sigset_t,i)
+ipc_perm(ui,ui,ui,ui,ui,uH,i)
+__msg(Sp=__msg,i,uH,H)
+msqid_ds(S=ipc_perm,ui,ui,i,i,l,l,l,Sp=__msg,Sp=__msg,ui)
+__sem(uH,i,uH,uH)
+semid_ds(S=ipc_perm,uH,l,l,Sp=__sem)
+sembuf(uH,H,H)
+shmid_ds(S=ipc_perm,ui,i,i,ui,l,l,l,op)
+mcontext_t(ia[19],i[128],i[33])
+ucontext_t(ui,Sp=ucontext_t,S=sigset_t,S=stack_t,S=mcontext_t)
+

@@ -10,9 +10,6 @@ env.Replace(RANLIB = 'llvm-ranlib')
 # Settings related to .bc files
 env.Replace(OBJSUFFIX = '.bc')
 env.Replace(CCCOM = env['CCCOM'].replace(' -c ',' -emit-llvm-bc '))
-llvmas = env.Builder(action = env.Action("llvm-as -o $TARGET $SOURCES"), 
-                     suffix = '.bc', src_suffix = '.ll')
-env.Append(BUILDERS = {'LLVMAssemble': llvmas})
 
 #-Xclang -nostdinc -Xclang -isystem -Xclang ../../include 
 #-Xclang -I -Xclang ../include/ -O2 -emit-llvm -v -c

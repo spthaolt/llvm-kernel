@@ -1,5 +1,7 @@
 #!/bin/python
 
+import sys
+
 # Convert type signature 'sig' to its' LLVM type
 # If array_as_ptr is True, convert arrays to pointers
 def parse_type(sig, array_as_ptr):
@@ -47,11 +49,12 @@ def get_syscall_no(syscall_header_name):
         if len(elems) != 3 or not elems[1].startswith('SYS_'):
             continue
         dict[elems[1][4:]] = elems[2]
+    header_file.close()
     return dict
 
 # Generate the structure definitions
-def generate_structs(struct_file_name):
-    print '; Automatically generated structures'
+def generate_structs(struct_file_name, out):
+    print >>out, '; Automatically generated structures'
     struct_file = open(struct_file_name, 'r')
     for line in struct_file:
         line = line.strip()
@@ -60,20 +63,21 @@ def generate_structs(struct_file_name):
         (name, field_list) = line.split('(')
         fields_raw = field_list.rstrip(')').split(',')
         field_types = [parse_type(x, False) for x in fields_raw]
-        print '%%struct.%s = type { %s }' % (name, ', '.join(field_types))
-    print
+        print >>out, '%%struct.%s = type { %s }' % (name, ', '.join(field_types))
+    struct_file.close()
+    print >>out
 
 # Generate the system call wrappers
-def generate_wrappers(syscall_file_name, syscall_no):
-    print '; Imported intrinsics'
-    print 'declare void @llvm.va_start(i8*) nounwind'
-    print 'declare void @llvm.va_end(i8*) nounwind'
-    print 'declare i8* @llvm.syscall.i8ptr(i32, ...) nounwind'
-    print 'declare i32 @llvm.syscall.i32(i32, ...) nounwind'
-    print 'declare i64 @llvm.syscall.i64(i32, ...) nounwind'
-    print 'declare void @llvm.syscall.void(i32, ...) nounwind\n'
+def generate_wrappers(syscall_file_name, syscall_no, out):
+    print >>out, '; Imported intrinsics'
+    print >>out, 'declare void @llvm.va_start(i8*) nounwind'
+    print >>out, 'declare void @llvm.va_end(i8*) nounwind'
+    print >>out, 'declare i8* @llvm.syscall.i8ptr(i32, ...) nounwind'
+    print >>out, 'declare i32 @llvm.syscall.i32(i32, ...) nounwind'
+    print >>out, 'declare i64 @llvm.syscall.i64(i32, ...) nounwind'
+    print >>out, 'declare void @llvm.syscall.void(i32, ...) nounwind\n'
 
-    print '; Automatically generated syscalls'
+    print >>out, '; Automatically generated syscalls'
     syscall_file = open(syscall_file_name, 'r')
     for line in syscall_file.readlines():
         line = line.strip()
@@ -96,7 +100,7 @@ def generate_wrappers(syscall_file_name, syscall_no):
             param_decl_list.append(ss)
 
         if name not in syscall_no:
-            print '; Unknown syscall: %s\n' % name
+            print >>out, '; Unknown syscall: %s\n' % name
             continue
         syscall_nr = syscall_no[name]
         ret_type = parse_type(ret_type_raw, True)
@@ -109,22 +113,23 @@ def generate_wrappers(syscall_file_name, syscall_no):
             res_name = ' %res' 
 
         # Write the contents of the wrapper function
-        print 'define %s @%s(%s) nounwind {' % (ret_type, name, param_decl)  
+        print >>out, 'define %s @%s(%s) nounwind {' % (ret_type, name, param_decl)  
         if '...' in param_decl2:
             # Vararg, replace it with pointer to first parameter
             param_decl2 = param_decl2.replace('...', 'i8** %va')
-            print '\t%va = alloca i8*'
-            print '\t%va2 = bitcast i8** %va to i8*'
-            print '\tcall void @llvm.va_start(i8* %va2)'
-        print '\t%scall %s (i32, ...)* @llvm.syscall.%s(i32 %s%s)' % (res_assign, 
+            print >>out, '\t%va = alloca i8*'
+            print >>out, '\t%va2 = bitcast i8** %va to i8*'
+            print >>out, '\tcall void @llvm.va_start(i8* %va2)'
+        print >>out, '\t%scall %s (i32, ...)* @llvm.syscall.%s(i32 %s%s)' % (res_assign, 
                 ret_type, ret_type.replace('*', 'ptr'), syscall_nr, param_decl2)
         if len(param_decl_list) > 0 and param_decl_list[-1] == '...':
-            print '\tcall void @llvm.va_end(i8* %va2)'
-        print '\tret %s%s' % (ret_type, res_name)
-        print '}\n'
+            print >>out, '\tcall void @llvm.va_end(i8* %va2)'
+        print >>out, '\tret %s%s' % (ret_type, res_name)
+        print >>out, '}\n'
+    syscall_file.close()
 
 if __name__ == '__main__':
     syscall_no = get_syscall_no('syscall.h')
-    generate_structs('structs.list')
-    generate_wrappers('syscalls.list', syscall_no)
+    generate_structs('structs.list', sys.stdout)
+    generate_wrappers('syscalls.list', syscall_no, sys.stdout)
 

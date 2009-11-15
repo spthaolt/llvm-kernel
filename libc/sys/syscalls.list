@@ -1,50 +1,50 @@
 # List of all syscalls 
 # Argument types:
-# h     = char (8-bit)
-# H     = short (16-bit)
-# o     = void
-# i     = 32-bit signed integer
-# l     = 64-bit signed integer
-# s     = NULL-terminated string
-# S     = structure, name after =
-# v     = vararg
+# h      = char (8-bit)
+# H      = short (16-bit)
+# o      = void
+# i      = 32-bit signed integer
+# l      = 64-bit signed integer
+# s      = NULL-terminated string
+# S...=# = structure, name after =
+# v      = vararg
 #
 # Argument qualifiers:
-# p     = pointer
-# u     = unsigned
-# I     = copied on input
-# O     = copied on output
-# b#    = byte length of parameter #
-# c#    = count of items in parameter #
-# a[#]  = array of length #
+# p      = pointer
+# u      = unsigned
+# I      = copied on input
+# O      = copied on output
+# b[#]   = byte length of parameter #
+# c[#]   = count of items in parameter #
+# a[#]   = array of length #
 #
 # syscall_name      aliases         args
 
 # file operations
-pipe                _pipe           i(ia[2]O)
+pipe                _pipe           i(iOa[2])
 open                _open           i(s,i,ui)
 dup                 -               i(i)
 dup2                -               i(i,i)
 close               _close          i(i)
 lseek               -               l(i,l,i)
-send                -               i(i,opI,uib1,i)
-sendto              -               i(i,opI,uib1,SpI=sockaddr,uib3)
+send                -               i(i,opI,uib[1],i)
+sendto              -               i(i,opI,uib[1],SpI=sockaddr,uib[3])
 sendmsg             -               i(i,SpI=msghdr,i)
-recv                -               i(i,opO,uib1,i)
-recvfrom            -               i(i,opO,uib1,i,SpIO=sockaddr,uipb3IO)
+recv                -               i(i,opO,uib[1],i)
+recvfrom            -               i(i,opO,uib[1],i,SpIO=sockaddr,uipb3IO)
 recvmsg             -               i(i,SpI=msghdr,i)
-read                _read           i(i,opO,uib1)
-pread               -               i(i,opO,uib1,l)
-readv               _readv          i(i,SpI=iovec,ic1)
-preadv              -               i(i,SpI=iovec,ic1,l)
-write               _write          i(i,opI,uib1)
-pwrite              -               i(i,opI,uib1,l)
-writev              _writev         i(i,SpI=iovec,uic1)
-pwritev             -               i(i,SpI=iovec,uic1,l)
+read                _read           i(i,opO,uib[1])
+pread               -               i(i,opO,uib[1],l)
+readv               _readv          i(i,SpI=iovec,ic[1])
+preadv              -               i(i,SpI=iovec,ic[1],l)
+write               _write          i(i,opI,uib[1])
+pwrite              -               i(i,opI,uib[1],l)
+writev              _writev         i(i,SpI=iovec,uic[1])
+pwritev             -               i(i,SpI=iovec,uic[1],l)
 __select50          ___select50     i(i,SpIO=fd_set,SpIO=fd_set,SpIO=fd_set,SpIO=timeval)
 __pselect50         ___pselect50    i(i,SpIO=fd_set,SpIO=fd_set,SpIO=fd_set,SpIO=timeval,SpIO=sigset_t)
-poll                _poll           i(SpIO=pollfd,uic0,i)
-__pollts50          ___pollts50     i(SpIO=pollfd,uic0,SpI=timespec,SpI=sigset_t)
+poll                _poll           i(SpIO=pollfd,uic[0],i)
+__pollts50          ___pollts50     i(SpIO=pollfd,uic[0],SpI=timespec,SpI=sigset_t)
 fcntl               _fcntl          i(i,i,v)
 ioctl               -               i(i,ui,op)
 
@@ -52,7 +52,7 @@ chdir               -               i(s)
 fchdir              -               i(i)
 link                -               i(s,s)
 symlink             -               i(s,s)
-readlink            _readlink       i(s,hpO,uib1)
+readlink            _readlink       i(s,hpO,uib[1])
 mkdir               -               i(s,ui)
 mkfifo              -               i(s,ui)
 __mknod50           ___mknod50      i(s,ui,ul)
@@ -64,7 +64,7 @@ undelete            -               i(s)
 unlink              -               i(s)
 rmdir               -               i(s)
 umask               -               i(ui)
-__getcwd            -               i(hpO,uib0)
+__getcwd            -               i(hpO,uib[0])
 
 sync                -               Eo()
 fdatasync           _fdatasync      i(i)
@@ -94,10 +94,10 @@ fchown              -               i(i,ui,ui)
 
 # socket operations
 __socket30          -               i(i,i,i)
-socketpair          -               i(i,i,ia[2]O)
+socketpair          -               i(i,i,iOa[2])
 accept              _accept         i(i,SpIO=sockaddr,uipb1IO)
-bind                -               i(i,SpI=sockaddr,uib1)
-connect             _connect        i(i,SpI=sockaddr,uib1)
+bind                -               i(i,SpI=sockaddr,uib[1])
+connect             _connect        i(i,SpI=sockaddr,uib[1])
 listen              -               i(i,i)
 
 # get/set *id-related
@@ -130,7 +130,7 @@ wait                -               i(ipO)
 waitpid             -               i(ui,ipO,i)
 wait3               -               i(ipO,i,SpO=rusage)
 __wait450           ___wait450      i(ui,ipO,i,SpO=rusage)
-exit                exit,_Exit      Ei(i)
+exit                _exit,_Exit     Ei(i)
 
 # MMap-related
 mlock               -               i(op,ui)
@@ -154,12 +154,12 @@ __sigprocmask14     -               i(i,SpI=sigset_t,SpO=sigset_t)
 
 __msgctl50          ___msgctl50     i(i,i,SpIO=msqid_ds)
 msgget              -               i(i,i)
-msgrcv              _msgrcv         i(i,opO,uib1,i,i)
-msgsnd              _msgsnd         i(i,opI,uib1,i)
+msgrcv              _msgrcv         i(i,opO,uib[1],i,i)
+msgsnd              _msgsnd         i(i,opI,uib[1],i)
 
 ____semctl50        -               i(i,i,i,v)
 semget              -               i(i,i,i)
-semop               -               i(i,SpIO=sembuf,uic1)
+semop               -               i(i,SpIO=sembuf,uic[1])
 
 shmat               -               i(i,op,i)
 shmdt               -               i(op)
@@ -172,16 +172,16 @@ brk                 _brk            i(op)
 sbrk                _sbrk           i(i)
 getcontext          _getcontext     i(SpO=ucontext_t)
 setcontext          -               i(SpI=ucontext_t)
-__getdents30        -               i(i,hpO,uib1)
-getgroups           -               i(ic1,uipO)
+__getdents30        -               i(i,hpO,uib[1])
+getgroups           -               i(ic[1],uipO)
 __getlogin          -               s()
-getlogin_r          -               i(hpO,uib0)
+getlogin_r          -               i(hpO,uib[0])
 __setlogin          -               i(s)
 getpeername         -               i(i,SpO=sockaddr,uipb1IO)
 __nanosleep50       ___nanosleep50  i(SpI=timespec,SpO=timespec)
 reboot              -               i(i,s)
 shutdown            -               i(i,i)
-setgroups           -               i(ic1,uipI)
+setgroups           -               i(ic[1],uipI)
 getrlimit           -               i(i,SpO=rlimit)
 setrlimit           -               i(i,SpI=rlimit)
 __getrusage50       -               i(i,SpO=rusage)
@@ -195,7 +195,7 @@ acct                -               i(s)
 # Unimplemented:
 #__clone         clone               i(ppip      clone
 #kqueue          kqueue              i()
-#kevent          kevent              i(ib0L0B1L1p
+#kevent          kevent              i(ib[0]L0B1L1p
 #swapon          swapon              i(s
 #clock_settime   clock_settime    
 #clock_gettime

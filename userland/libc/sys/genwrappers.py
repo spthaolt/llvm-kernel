@@ -86,13 +86,22 @@ def generate_structs(struct_file_name, out):
 
 # Generate the system call wrappers
 def generate_wrappers(syscall_file_name, syscall_no, out):
+    print >>out, '; Variable for errno'
+    print >>out, '@__errno = external global i32\n'
+
+    print >>out, '; Return types for syscall intrinsic'
+    print >>out, '%struct.llvm.syscall.reti8ptr = type { i32, i8* }'
+    print >>out, '%struct.llvm.syscall.reti32 = type { i32, i32 }'
+    print >>out, '%struct.llvm.syscall.reti64 = type { i32, i64 }'
+    print >>out, '%struct.llvm.syscall.retvoid = type { i32 }\n'
+
     print >>out, '; Imported intrinsics'
     print >>out, 'declare void @llvm.va_start(i8*) nounwind'
     print >>out, 'declare void @llvm.va_end(i8*) nounwind'
-    print >>out, 'declare i8* @llvm.syscall.i8ptr(i32, ...) nounwind'
-    print >>out, 'declare i32 @llvm.syscall.i32(i32, ...) nounwind'
-    print >>out, 'declare i64 @llvm.syscall.i64(i32, ...) nounwind'
-    print >>out, 'declare void @llvm.syscall.void(i32, ...) nounwind\n'
+    print >>out, 'declare %struct.llvm.syscall.reti8ptr @llvm.syscall.i8ptr(i32, ...) nounwind'
+    print >>out, 'declare %struct.llvm.syscall.reti32 @llvm.syscall.i32(i32, ...) nounwind'
+    print >>out, 'declare %struct.llvm.syscall.reti64 @llvm.syscall.i64(i32, ...) nounwind'
+    print >>out, 'declare %struct.llvm.syscall.retvoid @llvm.syscall.void(i32, ...) nounwind\n'
 
     print >>out, '; Automatically generated syscalls'
     syscall_file = open(syscall_file_name, 'r')
@@ -124,12 +133,10 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
         syscall_nr = syscall_no[name]
         ret_type = parse_type(ret_type_raw, True)
         param_decl = ', '.join(param_decl_list)
-        res_assign = res_name = param_decl2 = ''
+        param_decl2 = ''
+        ret_type_ptr = ret_type.replace('*', 'ptr')
         if len(param_decl) > 0:
             param_decl2 = ', ' + param_decl
-        if ret_type != 'void':
-            res_assign = '%res = '
-            res_name = ' %res' 
 
         # Write all the aliases
         fn_alias = ' = alias weak %s(%s)* @%s' % (ret_type, 
@@ -147,11 +154,21 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
             print >>out, '\t%va = alloca i8*'
             print >>out, '\t%va2 = bitcast i8** %va to i8*'
             print >>out, '\tcall void @llvm.va_start(i8* %va2)'
-        print >>out, '\t%scall %s (i32, ...)* @llvm.syscall.%s(i32 %s%s)' % (res_assign, 
-                ret_type, ret_type.replace('*', 'ptr'), syscall_nr, param_decl2)
+        print >>out, '\t%%res = call %%struct.llvm.syscall.ret%s (i32, ...)* '\
+                        '@llvm.syscall.%s(i32 %s%s)' % \
+                        (ret_type_ptr, ret_type_ptr, syscall_nr, param_decl2)
         if len(param_decl_list) > 0 and param_decl_list[-1] == '...':
             print >>out, '\tcall void @llvm.va_end(i8* %va2)'
-        print >>out, '\tret %s%s' % (ret_type, res_name)
+
+        exval_str = 'extractvalue %struct.llvm.syscall.ret' + ret_type_ptr
+        if 'E' not in ret_type_raw:
+            print >>out, '\t%errval = ' + exval_str + ' %res, 0'
+            print >>out, '\tstore i32 %errval, i32* @__errno'
+        if ret_type == 'void':
+            print >>out, '\tret void'
+        else:
+            print >>out, '\t%resval = ' + exval_str + ' %res, 1'
+            print >>out, '\tret ' + ret_type + ' %resval'
         print >>out, '}\n'
     syscall_file.close()
 

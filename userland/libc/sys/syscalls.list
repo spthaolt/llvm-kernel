@@ -161,7 +161,6 @@ shmget              -               i(i,ui,i)
 # misc
 __adjtime50         -               i(SpI=timeval,SpO=timeval)
 brk                 _brk            i(op)
-sbrk                _sbrk           i(i)
 getcontext          _getcontext     i(SpO=ucontext_t)
 setcontext          -               i(SpI=ucontext_t)
 __getdents30        -               i(i,hpO,uib[1])
@@ -182,6 +181,9 @@ __posix_fadvise50   -               Ei(i,l,l,i)
 access              -               i(s,i) 
 acct                -               i(s)
 
+# sbrk is not implemented in NetBSD, it uses brk()
+#sbrk                _sbrk           i(i)
+#
 # execve and mincore will be implemented manually
 # Unimplemented:
 #__clone         clone               i(ppip      clone

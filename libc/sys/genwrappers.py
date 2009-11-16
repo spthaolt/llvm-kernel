@@ -91,10 +91,12 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
 
         # Build list of types and names
         param_decl_list = []
+        param_types_list = []
         for i in range(len(params_raw)):
             if len(params_raw[i]) == 0:
                 continue
             ss = parse_type(params_raw[i], True)
+            param_types_list.append(ss)
             if ss != '...':
                 ss += ' %p' + str(i)
             param_decl_list.append(ss)
@@ -111,6 +113,14 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
         if ret_type != 'void':
             res_assign = '%res = '
             res_name = ' %res' 
+
+        # Write all the aliases
+        fn_alias = ' = alias weak %s(%s)* @%s' % (ret_type, 
+                ', '.join(param_types_list), name)
+        for al in aliases:
+            if al == '-':
+                continue
+            print >>out, '@' + al + fn_alias
 
         # Write the contents of the wrapper function
         print >>out, 'define %s @%s(%s) nounwind {' % (ret_type, name, param_decl)  

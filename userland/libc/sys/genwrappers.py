@@ -52,7 +52,7 @@ def generate_structs(struct_file_name, out):
         line = line.strip()
         if len(line) == 0 or line[0] == '#':
             continue
-        (name, field_list) = line.split('(')
+        name, field_list = line.split('(')
         fields_raw = field_list.rstrip(')').split(',')
         field_types = [parse_type(x, False) for x in fields_raw]
         print >>out, '%%struct.%s = type { %s }' % (name, ', '.join(field_types))
@@ -76,9 +76,9 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
         if len(line) == 0 or line[0] == '#':
             continue
 
-        (name, alias_list, params) = line.split()
+        name, alias_list, params = line.split()
         aliases = alias_list.split(',')
-        (ret_type_raw, param_list) = params.split('(')
+        ret_type_raw, param_list = params.split('(')
         params_raw = param_list.rstrip(')').split(',') 
 
         # Build list of types and names

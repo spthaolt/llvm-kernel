@@ -1,0 +1,12 @@
+# SConstruct file for libc
+
+Import("env")
+env = env.Clone()
+env.Append(CPPFLAGS = ' -Ilibc/include ')
+
+Export("env")
+objs = env.SConscript(dirs = ['gen', 'inet', 'locale', 'regex', 'resolv', 'sys'])
+objs += env.SConscript(dirs = ['net', 'stdio', 'stdlib', 'string', 'time'])
+libc = env.StaticLibrary('libc', objs)
+Return('libc')
+

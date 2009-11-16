@@ -13,10 +13,9 @@ env.Replace(CCCOM = env['CCCOM'].replace(' -c ',' -emit-llvm-bc '))
 
 #-Xclang -nostdinc -Xclang -isystem -Xclang ../../include 
 #-Xclang -I -Xclang ../include/ -O2 -emit-llvm -v -c
-env.Append(CCFLAGS = "-nostdinc -isystem ../include -Iinclude")
+env.Append(CCFLAGS = "-nostdinc -isystem include")
 env.Append(CPPDEFINES = ["_LIBC", "_REENTRANT"])
  
 Export("env")
-objs = env.SConscript(dirs = ['gen', 'inet', 'locale', 'regex', 'resolv', 'sys'])
-objs += env.SConscript(dirs = ['net', 'stdio', 'stdlib', 'string', 'time'])
-env.StaticLibrary('libc', objs)
+libc = env.SConscript(dirs = ['libc'])
+

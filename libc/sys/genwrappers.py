@@ -2,29 +2,21 @@
 
 import sys
 
+type_map = {'o': 'void', 'h': 'i8', 'H': 'i16', 
+            'i': 'i32', 'l': 'i64', 's': 'i8' }
+
 # Convert type signature 'sig' to its' LLVM type
 # If array_as_ptr is True, convert arrays to pointers
 def parse_type(sig, array_as_ptr):
     ptr = type = array_cnt = ''
     for x in sig:
-        if x == 'o':
-            type = 'void'
-        if x == 'h':
-            type = 'i8'
-        if x == 'p':
-            ptr = '*'
-        if x == 'H':
-            type = 'i16'
-        if x == 'i':
-            type = 'i32'
-        if x == 'l':
-            type = 'i64'
-        if x == 's':
-            type = 'i8'
-            ptr = '*'
+        if x in type_map:
+            type = type_map[x]
+        if x == 'p' or x == 's':
+            ptr += '*'
         if x == 'a':
             if array_as_ptr:
-                ptr = '*'
+                ptr += '*'
             else:
                 array_cnt = sig[sig.find('a[')+2:sig.find(']')]
         if x == 'S':
@@ -34,9 +26,9 @@ def parse_type(sig, array_as_ptr):
         if x == '=':
             break
 
-    if ptr == '*' and type == 'void':
+    if len(ptr) > 0 and type == 'void':
         type = 'i8'
-    if array_cnt != '':
+    if len(array_cnt) > 0:
         type = '[%s x %s]' % (array_cnt, type)
     return type + ptr
 

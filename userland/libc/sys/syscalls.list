@@ -142,7 +142,7 @@ sigaction           -               i(i,SpI=sigaction,SpO=sigaction)
 sigaltstack         -               i(SpI=stack_t,SpO=stack_t)
 sigpending          -               i(SpO=sigset_t)
 sigprocmask         -               i(i,SpI=sigset_t,SpO=sigset_t)
-#__sigsuspend14      -               i(SpI=sigmask)
+#sigsuspend          -               i(SpI=sigmask)
 
 msgctl              _msgctl         i(i,i,SpIO=msqid_ds)
 msgget              -               i(i,i)
@@ -161,6 +161,7 @@ shmget              -               i(i,ui,i)
 # misc
 __adjtime           -               i(SpI=timeval,SpO=timeval)
 brk                 _brk            i(op)
+sbrk                _sbrk           i(i)
 getcontext          _getcontext     i(SpO=ucontext_t)
 setcontext          -               i(SpI=ucontext_t)
 getdents            -               i(i,hpO,uib[1])
@@ -181,9 +182,6 @@ posix_fadvise       -               Ei(i,l,l,i)
 access              -               i(s,i) 
 acct                -               i(s)
 
-# sbrk is not implemented in NetBSD, it uses brk()
-#sbrk                _sbrk           i(i)
-#
 # execve and mincore will be implemented manually
 # Unimplemented:
 #__clone         clone               i(ppip      clone

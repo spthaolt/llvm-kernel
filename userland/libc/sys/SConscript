@@ -15,7 +15,8 @@ Import("env")
 env = env.Clone()
 gen_wrappers_action = env.Action(gen_wrappers_func, "Generating system call wrappers")
 env.Depends('syscalls.ll.s', 'genwrappers.py')
-env.Command('syscalls.ll.s', ['syscall.h', 'syscalls.list', 'structs.list'], gen_wrappers_action)
+env.Command('syscalls.ll.s', ['../../include/sys/syscall.h',
+                'syscalls.list', 'structs.list'], gen_wrappers_action)
 env.Clean('syscalls.ll.s', 'genwrappers.pyc')
 
 objs = env.StaticObject(Glob('*.c')) 

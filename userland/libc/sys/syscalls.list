@@ -44,7 +44,7 @@ pselect             _pselect        i(i,SpIO=fd_set,SpIO=fd_set,SpIO=fd_set,SpIO
 poll                _poll           i(SpIO=pollfd,uic[0],i)
 pollts              _pollts         i(SpIO=pollfd,uic[0],SpI=timespec,SpI=sigset_t)
 fcntl               _fcntl          i(i,i,v)
-ioctl               -               i(i,ui,op)
+ioctl               -               i(i,ul,op)
 
 chdir               -               i(s)
 fchdir              -               i(i)
@@ -146,7 +146,7 @@ sigprocmask         -               i(i,SpI=sigset_t,SpO=sigset_t)
 
 msgctl              _msgctl         i(i,i,SpIO=msqid_ds)
 msgget              -               i(i,i)
-msgrcv              _msgrcv         i(i,opO,uib[1],i,i)
+msgrcv              _msgrcv         i(i,opO,uib[1],l,i)
 msgsnd              _msgsnd         i(i,opI,uib[1],i)
 
 semctl              -               i(i,i,i,v)

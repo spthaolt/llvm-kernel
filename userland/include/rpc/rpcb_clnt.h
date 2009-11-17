@@ -66,23 +66,17 @@ extern bool_t rpcb_set(const rpcprog_t, const rpcvers_t,
 extern bool_t rpcb_unset(const rpcprog_t, const rpcvers_t,
 			 const struct netconfig *);
 extern rpcblist	*rpcb_getmaps(const struct netconfig *, const char *);
-#ifndef __LIBC12_SOURCE__
 extern enum clnt_stat rpcb_rmtcall(const struct netconfig *,
 				   const char *, const rpcprog_t,
 				   const rpcvers_t, const rpcproc_t,
 				   const xdrproc_t, const char *,
 				   const xdrproc_t, caddr_t,
 				   const struct timeval,
-				   const struct netbuf *)
-				   __RENAME(__rpcb_rmtcall50);
-#endif
+				   const struct netbuf *);
 extern bool_t rpcb_getaddr(const rpcprog_t, const rpcvers_t,
 			   const struct netconfig *, struct netbuf *,
 			   const  char *);
-#ifndef __LIBC12_SOURCE__
-extern bool_t rpcb_gettime(const char *, time_t *)
-    __RENAME(__rpcb_gettime50);
-#endif
+extern bool_t rpcb_gettime(const char *, time_t *);
 extern char *rpcb_taddr2uaddr(struct netconfig *, struct netbuf *);
 extern struct netbuf *rpcb_uaddr2taddr(struct netconfig *, char *);
 __END_DECLS

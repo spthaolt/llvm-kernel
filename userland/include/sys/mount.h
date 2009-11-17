@@ -444,17 +444,14 @@ extern struct vfs_list_head vfs_list;
 
 __BEGIN_DECLS
 #if !defined(__LIBC12_SOURCE__) && !defined(_STANDALONE)
-int	getfh(const char *, void *, size_t *)
-	__RENAME(__getfh30);
+int	getfh(const char *, void *, size_t *);
 #endif
 
 int	unmount(const char *, int);
 #if defined(_NETBSD_SOURCE)
-#ifndef __LIBC12_SOURCE__
-int mount(const char *, const char *, int, void *, size_t) __RENAME(__mount50);
-int	fhopen(const void *, size_t, int) __RENAME(__fhopen40);
-int	fhstat(const void *, size_t, struct stat *) __RENAME(__fhstat50);
-#endif
+int mount(const char *, const char *, int, void *, size_t);
+int	fhopen(const void *, size_t, int);
+int	fhstat(const void *, size_t, struct stat *);
 #endif /* _NETBSD_SOURCE */
 __END_DECLS
 

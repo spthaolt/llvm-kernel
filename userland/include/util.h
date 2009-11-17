@@ -72,10 +72,8 @@ off_t		getlabeloffset(void);
 int		getlabelsector(void);
 int		getmaxpartitions(void);
 int		getrawpartition(void);
-#ifndef __LIBC12_SOURCE__
-void		login(const struct utmp *) __RENAME(__login50);
-void		loginx(const struct utmpx *) __RENAME(__loginx50);
-#endif
+void		login(const struct utmp *);
+void		loginx(const struct utmpx *);
 int		login_tty(int);
 int		logout(const char *);
 int		logoutx(const char *, int, int);
@@ -86,26 +84,18 @@ int		opendisk1(const char *, int, char *, size_t, int,
 			  int (*)(const char *, int, mode_t));
 int		openpty(int *, int *, char *, struct termios *,
     struct winsize *);
-#ifndef __LIBC12_SOURCE__
-time_t		parsedate(const char *, const time_t *, const int *)
-    __RENAME(__parsedate50);
-#endif
+time_t		parsedate(const char *, const time_t *, const int *);
 int		pidfile(const char *);
 int		pidlock(const char *, int, pid_t *, const char *);
 int		pw_abort(void);
-#ifndef __LIBC12_SOURCE__
-void		pw_copy(int, int, struct passwd *, struct passwd *)
-    __RENAME(__pw_copy50);
+void		pw_copy(int, int, struct passwd *, struct passwd *);
 int		pw_copyx(int, int, struct passwd *, struct passwd *,
-    char *, size_t) __RENAME(__pw_copyx50);
-#endif
+    char *, size_t);
 void		pw_edit(int, const char *);
 void		pw_error(const char *, int, int);
 void		pw_getconf(char *, size_t, const char *, const char *);
-#ifndef __LIBC12_SOURCE__
 void		pw_getpwconf(char *, size_t, const struct passwd *,
-    const char *) __RENAME(__pw_getpwconf50);
-#endif
+    const char *);
 const char     *pw_getprefix(void);
 void		pw_init(void);
 int		pw_lock(int);

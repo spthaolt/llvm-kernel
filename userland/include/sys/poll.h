@@ -87,11 +87,8 @@ __END_DECLS
 struct timespec;
 
 __BEGIN_DECLS
-#ifndef __LIBC12_SOURCE__
 int	pollts(struct pollfd * __restrict, nfds_t,
-    const struct timespec * __restrict, const sigset_t * __restrict)
-    __RENAME(__pollts50);
-#endif /* __LIBC12_SOURCE__ */
+    const struct timespec * __restrict, const sigset_t * __restrict);
 __END_DECLS
 #endif /* _NETBSD_SOURCE */
 

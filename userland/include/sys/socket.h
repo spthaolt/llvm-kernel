@@ -608,11 +608,7 @@ ssize_t	sendmsg(int, const struct msghdr *, int);
 int	setsockopt(int, int, int, const void *, socklen_t);
 int	shutdown(int, int);
 int	sockatmark(int);
-int	socket(int, int, int)
-#if !defined(__LIBC12_SOURCE__) && !defined(_STANDALONE)
-__RENAME(__socket30)
-#endif
-			     ;
+int	socket(int, int, int);
 int	socketpair(int, int, int, int *);
 __END_DECLS
 #endif /* !_KERNEL */

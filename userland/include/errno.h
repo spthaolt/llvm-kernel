@@ -56,10 +56,8 @@ int *__errno(void);
 #endif
 
 #if defined(_NETBSD_SOURCE)
-#ifndef __LIBC12_SOURCE__
-extern const int sys_nerr __RENAME(__sys_nerr14);
-extern const char *const *sys_errlist __RENAME(__sys_errlist14);
-#endif
+extern const int sys_nerr;
+extern const char *const *sys_errlist;
 #endif
 __END_DECLS
 

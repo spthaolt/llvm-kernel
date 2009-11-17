@@ -199,7 +199,7 @@ extern kmutex_t	msgmutex;
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-int	msgctl(int, int, struct msqid_ds *) __RENAME(__msgctl50);
+int	msgctl(int, int, struct msqid_ds *);
 int	msgget(key_t, int);
 int	msgsnd(int, const void *, size_t, int);
 ssize_t	msgrcv(int, void *, size_t, long, int);

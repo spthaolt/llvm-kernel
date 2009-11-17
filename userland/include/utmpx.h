@@ -131,24 +131,18 @@ __BEGIN_DECLS
 void setutxent(void);
 void endutxent(void);
 
-#ifndef __LIBC12_SOURCE__
-struct utmpx *getutxent(void) __RENAME(__getutxent50);
-struct utmpx *getutxid(const struct utmpx *) __RENAME(__getutxid50);
-struct utmpx *getutxline(const struct utmpx *) __RENAME(__getutxline50);
-struct utmpx *pututxline(const struct utmpx *) __RENAME(__pututxline50);
-#endif
+struct utmpx *getutxent(void);
+struct utmpx *getutxid(const struct utmpx *);
+struct utmpx *getutxline(const struct utmpx *);
+struct utmpx *pututxline(const struct utmpx *);
 
 #if defined(_NETBSD_SOURCE)
-#ifndef __LIBC12_SOURCE__
-int updwtmpx(const char *, const struct utmpx *) __RENAME(__updwtmpx50);
-struct lastlogx *getlastlogx(const char *, uid_t, struct lastlogx *)
-    __RENAME(__getlastlogx50);
-int updlastlogx(const char *, uid_t, struct lastlogx *)
-    __RENAME(__updlastlogx50);
+int updwtmpx(const char *, const struct utmpx *);
+struct lastlogx *getlastlogx(const char *, uid_t, struct lastlogx *);
+int updlastlogx(const char *, uid_t, struct lastlogx *);
 struct utmp;
-void getutmp(const struct utmpx *, struct utmp *) __RENAME(__getutmp50);
-void getutmpx(const struct utmp *, struct utmpx *) __RENAME(__getutmpx50);
-#endif
+void getutmp(const struct utmpx *, struct utmp *);
+void getutmpx(const struct utmp *, struct utmpx *);
 
 int utmpxname(const char *);
 

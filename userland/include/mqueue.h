@@ -47,13 +47,10 @@ ssize_t	mq_receive(mqd_t, char *, size_t, unsigned *);
 int	mq_send(mqd_t, const char *, size_t, unsigned);
 int	mq_setattr(mqd_t, const struct mq_attr * __restrict,
 		    struct mq_attr * __restrict);
-#ifndef __LIBC12_SOURCE__
 ssize_t	mq_timedreceive(mqd_t, char * __restrict, size_t,
-    unsigned * __restrict, const struct timespec * __restrict)
-    __RENAME(__mq_timedreceive50);
+    unsigned * __restrict, const struct timespec * __restrict);
 int	mq_timedsend(mqd_t, const char *, size_t, unsigned,
-    const struct timespec *) __RENAME(__mq_timedsend50);
-#endif
+    const struct timespec *);
 int	mq_unlink(const char *);
 __END_DECLS
 

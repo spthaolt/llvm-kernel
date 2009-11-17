@@ -84,9 +84,7 @@ int	strvisx(char *, const char *, size_t, int);
 int	strsvisx(char *, const char *, size_t, int, const char *);
 int	strunvis(char *, const char *);
 int	strunvisx(char *, const char *, int);
-#ifndef __LIBC12_SOURCE__
-int	unvis(char *, int, int *, int) __RENAME(__unvis13);
-#endif
+int	unvis(char *, int, int *, int);
 __END_DECLS
 
 #endif /* !_VIS_H_ */

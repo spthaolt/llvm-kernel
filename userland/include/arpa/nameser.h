@@ -618,15 +618,11 @@ int		ns_name_compress(const char *, u_char *, size_t,
 int		ns_name_skip(const u_char **, const u_char *);
 void		ns_name_rollback(const u_char *, const u_char **,
 				      const u_char **);
-#ifndef __LIBC12_SOURCE__
 int		ns_sign(u_char *, int *, int, int, void *,
-			     const u_char *, int, u_char *, int *, time_t)
-    __RENAME(__ns_sign50);
+			     const u_char *, int, u_char *, int *, time_t);
 int		ns_sign2(u_char *, int *, int, int, void *,
 			      const u_char *, int, u_char *, int *, time_t,
-			      u_char **, u_char **)
-    __RENAME(__ns_sign250);
-#endif
+			      u_char **, u_char **);
 ssize_t		ns_name_length(ns_nname_ct, size_t);
 int		ns_name_eq(ns_nname_ct, size_t, ns_nname_ct, size_t);
 int		ns_name_owned(ns_namemap_ct, int, ns_namemap_ct, int);
@@ -640,12 +636,9 @@ int		ns_sign_tcp2(u_char *, int *, int, int,
 int		ns_sign_tcp_init(void *, const u_char *, int,
 					ns_tcp_tsig_state *);
 u_char		*ns_find_tsig(u_char *, u_char *);
-#ifndef __LIBC12_SOURCE__
 int		ns_verify(u_char *, int *, void *,
 			       const u_char *, int, u_char *, int *,
-			       time_t *, int)
-    __RENAME(__ns_verify50);
-#endif
+			       time_t *, int);
 int		ns_verify_tcp(u_char *, int *, ns_tcp_tsig_state *, int);
 int		ns_verify_tcp_init(void *, const u_char *, int,
 					ns_tcp_tsig_state *);

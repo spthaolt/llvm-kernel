@@ -57,9 +57,7 @@ struct tms {
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-#ifndef __LIBC12_SOURCE__
-clock_t times(struct tms *) __RENAME(__times13);
-#endif
+clock_t times(struct tms *);
 __END_DECLS
 #endif
 #endif /* !_SYS_TIMES_H_ */

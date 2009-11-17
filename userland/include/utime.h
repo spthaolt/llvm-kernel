@@ -49,9 +49,7 @@ struct utimbuf {
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-#ifndef __LIBC12_SOURCE__
-int utime(const char *, const struct utimbuf *) __RENAME(__utime50);
-#endif
+int utime(const char *, const struct utimbuf *);
 __END_DECLS
 
 #endif /* !_UTIME_H_ */

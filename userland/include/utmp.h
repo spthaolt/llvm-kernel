@@ -63,9 +63,7 @@ struct utmp {
 __BEGIN_DECLS
 int utmpname(const char *);
 void setutent(void);
-#ifndef __LIBC12_SOURCE__
-struct utmp *getutent(void) __RENAME(__getutent50);
-#endif
+struct utmp *getutent(void);
 void endutent(void);
 __END_DECLS
 

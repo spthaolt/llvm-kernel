@@ -132,9 +132,7 @@ int	donice(struct lwp *, struct proc *, int);
 __BEGIN_DECLS
 int	getpriority(int, id_t);
 int	getrlimit(int, struct rlimit *);
-#ifndef __LIBC12_SOURCE__
-int	getrusage(int, struct rusage *) __RENAME(__getrusage50);
-#endif
+int	getrusage(int, struct rusage *);
 int	setpriority(int, id_t, int);
 int	setrlimit(int, const struct rlimit *);
 __END_DECLS

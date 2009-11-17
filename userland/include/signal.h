@@ -74,18 +74,16 @@ int	__libc_thr_sigsetmask(int, const sigset_t * __restrict,
 #endif /* __LIBPTHREAD_SOURCE__ */
 #endif
 
-#ifndef __LIBC12_SOURCE__
 int	sigaction(int, const struct sigaction * __restrict,
-    struct sigaction * __restrict) __RENAME(__sigaction14);
-int	sigaddset(sigset_t *, int) __RENAME(__sigaddset14);
-int	sigdelset(sigset_t *, int) __RENAME(__sigdelset14);
-int	sigemptyset(sigset_t *) __RENAME(__sigemptyset14);
-int	sigfillset(sigset_t *) __RENAME(__sigfillset14);
-int	sigismember(const sigset_t *, int) __RENAME(__sigismember14);
-int	sigpending(sigset_t *) __RENAME(__sigpending14);
-int	sigprocmask(int, const sigset_t * __restrict, sigset_t * __restrict)
-    __RENAME(__sigprocmask14);
-int	sigsuspend(const sigset_t *) __RENAME(__sigsuspend14);
+    struct sigaction * __restrict);
+int	sigaddset(sigset_t *, int);
+int	sigdelset(sigset_t *, int);
+int	sigemptyset(sigset_t *);
+int	sigfillset(sigset_t *);
+int	sigismember(const sigset_t *, int);
+int	sigpending(sigset_t *);
+int	sigprocmask(int, const sigset_t * __restrict, sigset_t * __restrict);
+int	sigsuspend(const sigset_t *);
 
 #if (defined(__GNUC__) && defined(__STDC__)) || defined(_SIGINLINE)
 
@@ -150,7 +148,6 @@ sigfillset(sigset_t *set)
 	return (0);
 }
 #endif /* (__GNUC__ && __STDC__) || _LIBC */
-#endif /* !__LIBC12_SOURCE__ */
 
 /*
  * X/Open CAE Specification Issue 4 Version 2
@@ -160,10 +157,7 @@ sigfillset(sigset_t *set)
 int	killpg(pid_t, int);
 int	siginterrupt(int, int);
 int	sigstack(const struct sigstack *, struct sigstack *);
-#ifndef __LIBC12_SOURCE__
-int	sigaltstack(const stack_t * __restrict, stack_t * __restrict)
-    __RENAME(__sigaltstack14);
-#endif
+int	sigaltstack(const stack_t * __restrict, stack_t * __restrict);
 int	sighold(int);
 int	sigignore(int);
 int	sigpause(int);
@@ -180,15 +174,11 @@ void	(*sigset (int, void (*)(int)))(int);
 int	sigwait	(const sigset_t * __restrict, int * __restrict);
 int	sigwaitinfo(const sigset_t * __restrict, siginfo_t * __restrict);
 
-#ifndef __LIBC12_SOURCE__
 struct timespec;
 int	sigtimedwait(const sigset_t * __restrict,
-    siginfo_t * __restrict, const struct timespec * __restrict)
-    __RENAME(__sigtimedwait50);
+    siginfo_t * __restrict, const struct timespec * __restrict);
 int	__sigtimedwait(const sigset_t * __restrict,
-    siginfo_t * __restrict, struct timespec * __restrict)
-    __RENAME(____sigtimedwait50);
-#endif
+    siginfo_t * __restrict, struct timespec * __restrict);
 #endif /* _POSIX_C_SOURCE >= 200112 || _XOPEN_SOURCE_EXTENDED || ... */
 
 

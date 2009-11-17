@@ -89,14 +89,12 @@ struct tm {
 __BEGIN_DECLS
 char *asctime(const struct tm *);
 clock_t clock(void);
-#ifndef __LIBC12_SOURCE__
-char *ctime(const time_t *) __RENAME(__ctime50);
-double difftime(time_t, time_t) __RENAME(__difftime50);
-struct tm *gmtime(const time_t *) __RENAME(__gmtime50);
-struct tm *localtime(const time_t *) __RENAME(__locatime50);
-time_t time(time_t *) __RENAME(__time50);
-time_t mktime(struct tm *) __RENAME(__mktime50);
-#endif
+char *ctime(const time_t *);
+double difftime(time_t, time_t);
+struct tm *gmtime(const time_t *);
+struct tm *localtime(const time_t *);
+time_t time(time_t *);
+time_t mktime(struct tm *);
 size_t strftime(char * __restrict, size_t, const char * __restrict,
     const struct tm * __restrict)
     __attribute__((__format__(__strftime__, 3, 0)));
@@ -115,18 +113,14 @@ long __sysconf(int);
 #endif
 
 extern __aconst char *tzname[2];
-#ifndef __LIBC12_SOURCE__
-void tzset(void) __RENAME(__tzset50);
-#endif
+void tzset(void);
 
 /*
  * X/Open Portability Guide >= Issue 4
  */
 #if defined(_XOPEN_SOURCE) || defined(_NETBSD_SOURCE)
 extern int daylight;
-#ifndef __LIBC12_SOURCE__
-extern long int timezone __RENAME(__timezone13);
-#endif
+extern long int timezone;
 char *strptime(const char * __restrict, const char * __restrict,
     struct tm * __restrict);
 #endif
@@ -142,19 +136,13 @@ extern int getdate_err;
 #include <sys/time.h>		/* XXX for struct timespec */
 struct sigevent;
 struct itimerspec;
-#ifndef __LIBC12_SOURCE__
-int clock_getres(clockid_t, struct timespec *)
-    __RENAME(__clock_getres50);
-int clock_gettime(clockid_t, struct timespec *)
-    __RENAME(__clock_gettime50);
-int clock_settime(clockid_t, const struct timespec *)
-    __RENAME(__clock_settime50);
-int nanosleep(const struct timespec *, struct timespec *)
-    __RENAME(__nanosleep50);
-int timer_gettime(timer_t, struct itimerspec *) __RENAME(__timer_gettime50);
+int clock_getres(clockid_t, struct timespec *);
+int clock_gettime(clockid_t, struct timespec *);
+int clock_settime(clockid_t, const struct timespec *);
+int nanosleep(const struct timespec *, struct timespec *);
+int timer_gettime(timer_t, struct itimerspec *);
 int timer_settime(timer_t, int, const struct itimerspec * __restrict, 
-    struct itimerspec * __restrict) __RENAME(__timer_settime50);
-#endif
+    struct itimerspec * __restrict);
 int timer_create(clockid_t, struct sigevent * __restrict,
     timer_t * __restrict);
 int timer_delete(timer_t);
@@ -164,27 +152,19 @@ int timer_getoverrun(timer_t);
 #if (_POSIX_C_SOURCE - 0) >= 199506L || (_XOPEN_SOURCE - 0) >= 500 || \
     defined(_REENTRANT) || defined(_NETBSD_SOURCE)
 char *asctime_r(const struct tm * __restrict, char * __restrict);
-#ifndef __LIBC12_SOURCE__
-char *ctime_r(const time_t *, char *) __RENAME(__ctime_r50);
-struct tm *gmtime_r(const time_t * __restrict, struct tm * __restrict)
-    __RENAME(__gmtime_r50);
-struct tm *localtime_r(const time_t * __restrict, struct tm * __restrict)
-    __RENAME(__localtime_r50);
-#endif
+char *ctime_r(const time_t *, char *);
+struct tm *gmtime_r(const time_t * __restrict, struct tm * __restrict);
+struct tm *localtime_r(const time_t * __restrict, struct tm * __restrict);
 #endif
 
 #if defined(_NETBSD_SOURCE)
-#ifndef __LIBC12_SOURCE__
-time_t time2posix(time_t) __RENAME(__time2posix50);
-time_t posix2time(time_t) __RENAME(__posix2time50);
-time_t timegm(struct tm *) __RENAME(__timegm50);
-time_t timeoff(struct tm *, long) __RENAME(__timeoff50);
-time_t timelocal(struct tm *) __RENAME(__timelocal50);
-struct tm *offtime(const time_t *, long) __RENAME(__offtime50);
-#endif
-#ifndef __LIBC12_SOURCE__
-void tzsetwall(void) __RENAME(__tzsetwall50);
-#endif
+time_t time2posix(time_t);
+time_t posix2time(time_t);
+time_t timegm(struct tm *);
+time_t timeoff(struct tm *, long);
+time_t timelocal(struct tm *);
+struct tm *offtime(const time_t *, long);
+void tzsetwall(void);
 #endif /* _NETBSD_SOURCE */
 
 __END_DECLS

@@ -54,6 +54,7 @@ fstatvfs(int f, struct statvfs *st)
 	return fstatvfs1(f, st, ST_WAIT);
 }
 
+#if 0
 int	__fhstatvfs140(const void *fhp, size_t fh_size, struct statvfs *buf,
 	int flags);
 int	__fhstatvfs40(const void *fh, size_t fh_size, struct statvfs *st);
@@ -63,3 +64,5 @@ __fhstatvfs40(const void *fh, size_t fh_size, struct statvfs *st)
 {
 	return __fhstatvfs140(fh, fh_size, st, ST_WAIT);
 }
+#endif
+

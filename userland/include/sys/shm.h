@@ -192,7 +192,7 @@ int	shmctl1(struct lwp *, int, int, struct shmid_ds *);
 
 __BEGIN_DECLS
 void	*shmat(int, const void *, int);
-int	shmctl(int, int, struct shmid_ds *) __RENAME(__shmctl50);
+int	shmctl(int, int, struct shmid_ds *);
 int	shmdt(const void *);
 int	shmget(key_t, size_t, int);
 __END_DECLS

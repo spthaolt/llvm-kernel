@@ -175,10 +175,8 @@ struct rusage;	/* forward declaration */
 pid_t	wait(int *);
 pid_t	waitpid(pid_t, int *, int);
 #if defined(_XOPEN_SOURCE) || defined(_NETBSD_SOURCE)
-#ifndef __LIBC12_SOURCE__
-pid_t	wait3(int *, int, struct rusage *) __RENAME(__wait350);
-pid_t	wait4(pid_t, int *, int, struct rusage *) __RENAME(__wait450);
-#endif
+pid_t	wait3(int *, int, struct rusage *);
+pid_t	wait4(pid_t, int *, int, struct rusage *);
 #endif
 __END_DECLS
 #endif

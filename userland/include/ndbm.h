@@ -76,13 +76,11 @@ int	 dbm_clearerr(DBM *);
 #if defined(_NETBSD_SOURCE)
 int	 dbm_dirfno(DBM *);
 #endif
-#ifndef __LIBC12_SOURCE__
-int	 dbm_delete(DBM *, datum)		__RENAME(__dbm_delete13);
-datum	 dbm_fetch(DBM *, datum)		__RENAME(__dbm_fetch13);
-datum	 dbm_firstkey(DBM *)			__RENAME(__dbm_firstkey13);
-datum	 dbm_nextkey(DBM *)			__RENAME(__dbm_nextkey13);
-int	 dbm_store(DBM *, datum, datum, int)	__RENAME(__dbm_store13);
-#endif
+int	 dbm_delete(DBM *, datum);
+datum	 dbm_fetch(DBM *, datum);
+datum	 dbm_firstkey(DBM *);
+datum	 dbm_nextkey(DBM *);
+int	 dbm_store(DBM *, datum, datum, int);
 __END_DECLS
 
 #endif /* !_NDBM_H_ */

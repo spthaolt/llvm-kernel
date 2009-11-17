@@ -264,9 +264,7 @@ int	 symlink(const char *, const char *);
 void	 sync(void);
 useconds_t ualarm(useconds_t, useconds_t);
 int	 usleep(useconds_t);
-#ifndef __LIBC12_SOURCE__
-pid_t	 vfork(void) __RENAME(__vfork14);
-#endif
+pid_t	 vfork(void);
 
 #ifndef __AUDIT__
 char	*getwd(char *);				/* obsoleted by getcwd() */

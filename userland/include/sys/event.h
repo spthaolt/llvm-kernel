@@ -249,10 +249,8 @@ struct timespec;
 __BEGIN_DECLS
 #if defined(_NETBSD_SOURCE)
 int	kqueue(void);
-#ifndef __LIBC12_SOURCE__
 int	kevent(int, const struct kevent *, size_t, struct kevent *, size_t,
-		    const struct timespec *) __RENAME(__kevent50);
-#endif
+		    const struct timespec *);
 #endif /* !_POSIX_C_SOURCE */
 __END_DECLS
 

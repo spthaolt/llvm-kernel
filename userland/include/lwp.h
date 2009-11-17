@@ -53,10 +53,7 @@ void	*_lwp_getprivate(void);
 void	_lwp_setprivate(void *);
 int	_lwp_kill(lwpid_t, int);
 int	_lwp_detach(lwpid_t);
-#ifndef __LIBC12_SOURCE__
-int	_lwp_park(const struct timespec *, lwpid_t, const void *, const void *)
-    __RENAME(___lwp_park50);
-#endif
+int	_lwp_park(const struct timespec *, lwpid_t, const void *, const void *);
 int	_lwp_unpark(lwpid_t, const void *);
 ssize_t	_lwp_unpark_all(const lwpid_t *, size_t, const void *);
 int	_lwp_setname(lwpid_t, const char *);

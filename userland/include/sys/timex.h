@@ -249,9 +249,7 @@ extern kmutex_t timecounter_lock;
 #else /* !_KERNEL */
 
 __BEGIN_DECLS
-#ifndef __LIBC12_SOURCE__
-int ntp_gettime(struct ntptimeval *) __RENAME(__ntp_gettime50);
-#endif
+int ntp_gettime(struct ntptimeval *);
 int ntp_adjtime(struct timex *);
 __END_DECLS
 #endif /* _KERNEL */

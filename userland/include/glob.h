@@ -99,11 +99,9 @@ typedef struct {
 #endif
 
 __BEGIN_DECLS
-#ifndef __LIBC12_SOURCE__
 int	glob(const char * __restrict, int,
-    int (*)(const char *, int), glob_t * __restrict)	 __RENAME(__glob30);
-void	globfree(glob_t *)				 __RENAME(__globfree30);
-#endif
+    int (*)(const char *, int), glob_t * __restrict);
+void	globfree(glob_t *);
 #ifdef _NETBSD_SOURCE
 int	glob_pattern_p(const char *, int);
 #endif

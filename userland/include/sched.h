@@ -46,10 +46,7 @@ int	sched_setscheduler(pid_t, int, const struct sched_param *);
 int	sched_getscheduler(pid_t);
 int	sched_get_priority_max(int);
 int	sched_get_priority_min(int);
-#ifndef __LIBC12_SOURCE__
-int	sched_rr_get_interval(pid_t, struct timespec *)
-    __RENAME(__sched_rr_get_interval50);
-#endif
+int	sched_rr_get_interval(pid_t, struct timespec *);
 
 int	sched_yield(void);
 int	__libc_thr_yield(void);

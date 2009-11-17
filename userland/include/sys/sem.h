@@ -210,9 +210,7 @@ extern struct semid_ds *sema;		/* semaphore id pool */
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-#ifndef __LIBC12_SOURCE__
-int	semctl(int, int, int, ...) __RENAME(__semctl50);
-#endif
+int	semctl(int, int, int, ...);
 int	semget(key_t, int, int);
 int	semop(int, struct sembuf *, size_t);
 #if defined(_NETBSD_SOURCE)

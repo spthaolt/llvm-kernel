@@ -44,10 +44,8 @@ int	aio_error(const struct aiocb *);
 int	aio_fsync(int, struct aiocb *);
 int	aio_read(struct aiocb *);
 ssize_t	aio_return(struct aiocb *);
-#ifndef __LIBC12_SOURCE__
 int	aio_suspend(const struct aiocb * const [], int,
-    const struct timespec *) __RENAME(__aio_suspend50);
-#endif
+    const struct timespec *);
 int	aio_write(struct aiocb *);
 int	lio_listio(int, struct aiocb * const * __restrict,
 		    int, struct sigevent * __restrict);

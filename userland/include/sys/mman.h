@@ -171,9 +171,7 @@ __BEGIN_DECLS
 void *	mmap(void *, size_t, int, int, int, off_t);
 int	munmap(void *, size_t);
 int	mprotect(void *, size_t, int);
-#ifndef __LIBC12_SOURCE__
-int	msync(void *, size_t, int) __RENAME(__msync13);
-#endif
+int	msync(void *, size_t, int);
 int	mlock(const void *, size_t);
 int	munlock(const void *, size_t);
 int	mlockall(int);

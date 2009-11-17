@@ -227,9 +227,7 @@ long double	strtold(const char * __restrict, char ** __restrict);
 #if (_POSIX_C_SOURCE - 0) >= 200112L || (_XOPEN_SOURCE - 0) >= 600 || \
     defined(_NETBSD_SOURCE)
 int	 setenv(const char *, const char *, int);
-#ifndef __LIBC12_SOURCE__
-int	 unsetenv(const char *) __RENAME(__unsetenv13);
-#endif
+int	 unsetenv(const char *);
 
 int	 posix_openpt(int);
 int	 posix_memalign(void **, size_t, size_t);
@@ -265,9 +263,7 @@ int	 cgetustr(char *, const char *, char **);
 void	 csetexpandtc(int);
 
 int	 daemon(int, int);
-#ifndef __LIBC12_SOURCE__
-__aconst char *devname(dev_t, mode_t) __RENAME(__devname50);
-#endif
+__aconst char *devname(dev_t, mode_t);
 
 #define	HN_DECIMAL		0x01
 #define	HN_NOSPACE		0x02

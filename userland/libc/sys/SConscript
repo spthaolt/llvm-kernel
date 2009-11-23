@@ -6,6 +6,7 @@ import genwrappers
 def gen_wrappers_func(target, source, env):
     fout = open(target[0].path, 'w')
     syscall_no = genwrappers.get_syscall_no(source[0].path)
+    genwrappers.generate_datalayout(fout)
     genwrappers.generate_structs(source[2].path, fout)
     genwrappers.generate_wrappers(source[1].path, syscall_no, fout)
     fout.close()

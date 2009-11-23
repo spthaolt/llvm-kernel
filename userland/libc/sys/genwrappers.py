@@ -69,6 +69,12 @@ def get_syscall_no(syscall_header_name):
     header_file.close()
     return dict
 
+# Prepend the data layout
+def generate_datalayout(out):
+    print >>out, 'target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-'\
+            'i16:16:16-i32:32:32-i64:64:64-f32:32:32-'\
+            'f64:64:64-f128:128:128-a0:0:64-s0:64:64"\n'
+
 # Generate the structure definitions
 def generate_structs(struct_file_name, out):
     print >>out, '; Automatically generated structures'

@@ -26,7 +26,6 @@
 
 kernel: arch/i386/main.c main/main.c include/i386/multiboot.h arch/i386/multiboot.S
 	gcc -Iinclude/i386 -ffreestanding -nostdlib main/main.c arch/i386/main.c arch/i386/multiboot.S -o llvm-kernel
-	scp llvm-kernel root@blackwing:/boot
 
 clean:
 	rm -f llvm-kernel

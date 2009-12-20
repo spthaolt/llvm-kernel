@@ -1,0 +1,14 @@
+# main SConstruct file for kernel
+# Copyright 2009 (c) Andrei Homescu & Alex Suhan
+
+env = Environment()
+env.Append(CFLAGS = ' -ffreestanding ')
+env.Append(CPPFLAGS = ' -nostdinc -isystem include -isystem include/i386 ')
+env.Append(CPPFLAGS = ' -isystem ../userland/include ')
+env.Append(CPPFLAGS = ' -D_KERNEL ')
+env.Append(LINKFLAGS = ' -nostdlib -Wl,-e,_start ')
+
+kernel_objs = env.Object(['main/main.c', 'arch/i386/main.c',\
+                            'arch/i386/multiboot.S'])
+env.Program('llvm-kernel', kernel_objs)
+

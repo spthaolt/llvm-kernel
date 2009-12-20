@@ -23,3 +23,10 @@
 #  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+kernel: arch/i386/main.c main/main.c include/i386/multiboot.h arch/i386/multiboot.S
+	gcc -Iinclude/i386 -ffreestanding -nostdlib main/main.c arch/i386/main.c arch/i386/multiboot.S -o llvm-kernel
+	scp llvm-kernel root@blackwing:/boot
+
+clean:
+	rm -f llvm-kernel

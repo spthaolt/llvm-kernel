@@ -25,3 +25,29 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#define ASM
+#include <multiboot.h>
+
+.text
+
+.globl  start, _start
+
+start: _start:
+jmp     multiboot_entry
+
+.align  4
+
+/* Multiboot header. */
+.long   MULTIBOOT_HEADER_MAGIC
+.long   MULTIBOOT_HEADER_FLAGS
+.long   -(MULTIBOOT_HEADER_MAGIC + MULTIBOOT_HEADER_FLAGS)
+
+multiboot_entry:
+	/* initialize stack */
+	movl    $(stack + STACK_SIZE), %esp
+	/* enter multiboot main */
+	call    mb_main
+	hlt
+
+.comm   stack, STACK_SIZE 

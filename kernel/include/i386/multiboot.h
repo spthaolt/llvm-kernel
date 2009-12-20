@@ -58,6 +58,7 @@
 
 typedef unsigned long paddr_t;
 typedef unsigned long vaddr_t;
+typedef unsigned long size_t;
 
 struct multiboot_header {
 	uint32_t	mh_magic;

@@ -72,8 +72,8 @@ def get_syscall_no(syscall_header_name):
 # Prepend the data layout
 def generate_datalayout(out):
     print >>out, ('target datalayout = "e-p:64:64:64-i1:8:8-i8:8:8-'
-                    'i16:16:16-i32:32:32-i64:64:64-f32:32:32-'
-                    'f64:64:64-f128:128:128-a0:0:64-s0:64:64"\n')
+                  'i16:16:16-i32:32:32-i64:64:64-f32:32:32-'
+                  'f64:64:64-f128:128:128-a0:0:64-s0:64:64"\n')
 
 # Generate the structure definitions
 def generate_structs(struct_file_name, out):
@@ -161,8 +161,8 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
             print >>out, '\t%va2 = bitcast i8** %va to i8*'
             print >>out, '\tcall void @llvm.va_start(i8* %va2)'
         print >>out, ('\t%%res = call %%struct.llvm.syscall.ret%s (i32, ...)* '
-                        '@llvm.syscall.%s(i32 %s%s)' % 
-                        (ret_type_ptr, ret_type_ptr, syscall_nr, param_decl2))
+                      '@llvm.syscall.%s(i32 %s%s)' % 
+                      (ret_type_ptr, ret_type_ptr, syscall_nr, param_decl2))
         if len(param_decl_list) > 0 and param_decl_list[-1] == '...':
             print >>out, '\tcall void @llvm.va_end(i8* %va2)'
 

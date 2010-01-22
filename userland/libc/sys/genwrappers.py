@@ -51,9 +51,9 @@ def parse_type(sig, array_as_ptr):
         if x == '=':
             break
 
-    if len(ptr) > 0 and type == 'void':
+    if ptr and type == 'void':
         type = 'i8'
-    if len(array_cnt) > 0:
+    if array_cnt:
         type = '[%s x %s]' % (array_cnt, type)
     return type + ptr
 
@@ -81,7 +81,7 @@ def generate_structs(struct_file_name, out):
     struct_file = open(struct_file_name, 'r')
     for line in struct_file:
         line = line.strip()
-        if len(line) == 0 or line[0] == '#':
+        if not line or line[0] == '#':
             continue
         name, field_list = line.split('(')
         fields_raw = field_list.rstrip(')').split(',')
@@ -113,7 +113,7 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
     syscall_file = open(syscall_file_name, 'r')
     for line in syscall_file.readlines():
         line = line.strip()
-        if len(line) == 0 or line[0] == '#':
+        if not line or line[0] == '#':
             continue
 
         name, alias_list, params = line.split()
@@ -125,7 +125,7 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
         param_decl_list = []
         param_types_list = []
         for i in range(len(params_raw)):
-            if len(params_raw[i]) == 0:
+            if not params_raw[i]:
                 continue
             ss = parse_type(params_raw[i], True)
             param_types_list.append(ss)
@@ -141,7 +141,7 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
         param_decl = ', '.join(param_decl_list)
         param_decl2 = ''
         ret_type_ptr = ret_type.replace('*', 'ptr')
-        if len(param_decl) > 0:
+        if param_decl:
             param_decl2 = ', ' + param_decl
 
         # Write all the aliases
@@ -163,7 +163,7 @@ def generate_wrappers(syscall_file_name, syscall_no, out):
         print >>out, ('\t%%res = call %%struct.llvm.syscall.ret%s (i32, ...)* '
                       '@llvm.syscall.%s(i32 %s%s)' % 
                       (ret_type_ptr, ret_type_ptr, syscall_nr, param_decl2))
-        if len(param_decl_list) > 0 and param_decl_list[-1] == '...':
+        if param_decl_list and param_decl_list[-1] == '...':
             print >>out, '\tcall void @llvm.va_end(i8* %va2)'
 
         exval_str = 'extractvalue %struct.llvm.syscall.ret' + ret_type_ptr

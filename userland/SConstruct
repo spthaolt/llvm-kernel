@@ -13,7 +13,7 @@ env.Replace(CCCOM = env['CCCOM'].replace(' -c ',' -emit-llvm-bc '))
 
 #-Xclang -nostdinc -Xclang -isystem -Xclang ../../include 
 #-Xclang -I -Xclang ../include/ -O2 -emit-llvm -v -c
-env.Append(CCFLAGS = "-nostdinc -isystem include")
+env.Append(CCFLAGS = "-nostdinc -isystem ../include")
 env.Append(CPPDEFINES = ["_LIBC", "_REENTRANT"])
  
 Export("env")

@@ -7,6 +7,9 @@
  * This code is derived from software contributed to The NetBSD Foundation
  * by Julio M. Merino Vidal.
  *
+ * Modified by:
+ * 		Alex Suhan <alex.suhan@gmail.com>
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -40,7 +43,23 @@
 #define MULTIBOOT_HEADER_HAS_VBE	0x00000004
 #define MULTIBOOT_HEADER_HAS_ADDR	0x00010000
 
-#if !defined(_LOCORE)
+/* Flags for the Multiboot header. */
+#ifdef __ELF__
+# define MULTIBOOT_HEADER_FLAGS         0x00000003
+#else
+# define MULTIBOOT_HEADER_FLAGS         0x00010003
+#endif
+
+/* Stack size for the bootstraping code. */
+#define STACK_SIZE                      0x1000
+
+#ifndef ASM
+#include <inttypes.h>
+
+typedef unsigned long paddr_t;
+typedef unsigned long vaddr_t;
+typedef unsigned long size_t;
+
 struct multiboot_header {
 	uint32_t	mh_magic;
 	uint32_t	mh_flags;
@@ -59,14 +78,6 @@ struct multiboot_header {
 	uint32_t	mh_height;
 	uint32_t	mh_depth;
 };
-#endif /* !defined(_LOCORE) */
-
-/*
- * Symbols defined in locore.S.
- */
-#if !defined(_LOCORE) && defined(_KERNEL)
-extern struct multiboot_header *Multiboot_Header;
-#endif /* !defined(_LOCORE) && defined(_KERNEL) */
 
 /* --------------------------------------------------------------------- */
 
@@ -87,8 +98,7 @@ extern struct multiboot_header *Multiboot_Header;
 #define MULTIBOOT_INFO_HAS_APM_TABLE	0x00000400
 #define MULTIBOOT_INFO_HAS_VBE		0x00000800
 
-#if !defined(_LOCORE)
-struct multiboot_info {
+typedef struct multiboot_info {
 	uint32_t	mi_flags;
 
 	/* Valid if mi_flags sets MULTIBOOT_INFO_HAS_MEMORY. */
@@ -137,7 +147,7 @@ struct multiboot_info {
 	paddr_t		unused_mi_vbe_interface_seg;
 	paddr_t		unused_mi_vbe_interface_off;
 	uint32_t	unused_mi_vbe_interface_len;
-};
+} multiboot_info_t;
 
 /* --------------------------------------------------------------------- */
 
@@ -167,37 +177,22 @@ struct multiboot_drive {
  * for mm_size.  In order to jump between two different entries, you
  * have to count mm_size + 4 bytes.
  */
-struct multiboot_mmap {
+typedef struct multiboot_mmap {
 	uint32_t	mm_size;
 	uint64_t	mm_base_addr;
 	uint64_t	mm_length;
 	uint32_t	mm_type;
-};
+} multiboot_mmap_t;
 
 /*
  * Modules. This describes an entry in the modules table as pointed
  * to by mi_mods_addr.
  */
 
-struct multiboot_module {
+typedef struct multiboot_module {
 	uint32_t	mmo_start;
 	uint32_t	mmo_end;
 	char *		mmo_string;
 	uint32_t	mmo_reserved;
-};
-
-#endif /* !defined(_LOCORE) */
-
-/* --------------------------------------------------------------------- */
-
-/*
- * Prototypes for public functions defined in multiboot.c.
- */
-#if !defined(_LOCORE) && defined(_KERNEL)
-void		multiboot_pre_reloc(struct multiboot_info *);
-void		multiboot_post_reloc(void);
-void		multiboot_print_info(void);
-bool		multiboot_ksyms_addsyms_elf(void);
-#endif /* !defined(_LOCORE) */
-
-/* --------------------------------------------------------------------- */
+} multiboot_module_t;
+#endif//ASM

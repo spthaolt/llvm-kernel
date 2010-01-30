@@ -3,13 +3,13 @@
 
 env = Environment()
 env.Append(CFLAGS = ' -ffreestanding ')
-env.Append(CPPFLAGS = ' -nostdinc -isystem include -isystem include/i386 ')
-env.Append(CPPFLAGS = ' -isystem ../userland/include ')
-env.Append(CPPFLAGS = ' -D_KERNEL ')
+env.Append(CPPFLAGS = ' -nostdinc -isystem ../include -isystem ../include/i386 ')
+env.Append(CPPFLAGS = ' -isystem ./include -D_KERNEL ')
 #env.Append(LINKFLAGS = ' -nostdlib -Wl,-e_start,-Ttext=0x100000 ')
 env.Append(LINKFLAGS = ' -nostdlib -Tarch/i386/llvm-kernel.ld ')
 
-kernel_objs = env.Object(['main/main.c', 'arch/i386/main.c',\
-                            'arch/i386/multiboot.S'])
+kernel_objs = env.Object(['main/main.c', 'arch/i386/main.c',
+				'arch/i386/multiboot.S',
+				'main/subr_prf.c'])
 env.Program('llvm-kernel', kernel_objs)
 

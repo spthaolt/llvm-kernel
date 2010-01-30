@@ -33,7 +33,7 @@
 
 /* Magic values for 80x24 VGA text mode */
 #define COLUMNS                 80
-#define LINES                   24
+#define LINES                   25
 
 /* Text color */
 #define WHITE               	15
@@ -101,7 +101,7 @@ static void clear_screen()
 	memset((void *) video, 0, COLUMNS * LINES * 2);
 }
 
-void mb_main()
+void mb_main(unsigned long magic, struct multiboot_info *mb_info)
 {
 	int color_idx = 0;
 	

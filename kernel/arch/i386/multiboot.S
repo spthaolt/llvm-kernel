@@ -46,7 +46,10 @@ jmp     multiboot_entry
 multiboot_entry:
 	/* initialize stack */
 	movl    $(stack + STACK_SIZE), %esp
+	
 	/* enter multiboot main */
+	pushl %ebx
+	pushl %eax
 	call    mb_main
 	hlt
 

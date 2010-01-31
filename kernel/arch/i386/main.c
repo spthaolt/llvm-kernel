@@ -38,6 +38,8 @@
 /* Text color */
 #define WHITE               	15
 
+#define IS_SET(bit, flags)		((flags) & (1 << (bit)))
+
 /* Character coordinates and pointer to the video memory. */
 static int column;
 static int line;
@@ -112,9 +114,40 @@ void mb_main(unsigned long magic, struct multiboot_info *mb_info)
 	for (; color_idx < 16; color_idx++)
 		putc('*', color_idx);
 	putc('\n', -1);
-
-	printf("LLVM kernel started, using printf\n");	
-	echo("LLVM kernel - entering eternal loop\n", WHITE);
+	
+	printf("LLVM kernel started, using printf: 0x%02x\n\n", 255);
+	
+	/* dump multiboot flags */
+	printf("mi_flags = 0x%x\n\n", (unsigned) mb_info->mi_flags);
+	
+	/* print multiboot memory limits */
+	if (IS_SET(0, mb_info->mi_flags)) {
+		printf("mi_mem_lower = %u KB\n", (unsigned) mb_info->mi_mem_lower);
+		printf("mi_mem_upper = %u KB\n", (unsigned) mb_info->mi_mem_upper);
+	}
+	
+	if (IS_SET(6, mb_info->mi_flags))
+	{
+		multiboot_mmap_t *crt_mmap = (multiboot_mmap_t *) mb_info->mi_mmap_addr;
+		
+		printf("mi_mmap_addr = 0x%08x\n", (unsigned) mb_info->mi_mmap_addr);
+		printf("mi_mmap_length = %u\n\n", (unsigned) mb_info->mi_mmap_length);
+		
+		while ((unsigned) crt_mmap < mb_info->mi_mmap_addr + mb_info->mi_mmap_length) {
+			printf("mm_size = %0u ", (unsigned) crt_mmap->mm_size);
+			printf("mm_base_addr = 0x%08x ",
+			       (unsigned) crt_mmap->mm_base_addr);
+			printf("mm_length = 0x%08x ",
+			       (unsigned) crt_mmap->mm_length);
+			printf("mm_type = %u\n", crt_mmap->mm_type);
+			
+			crt_mmap = (multiboot_mmap_t *) ((unsigned) crt_mmap +
+			                                 crt_mmap->mm_size +
+			                                 sizeof(crt_mmap->mm_size));
+		}
+    }
+	
+	echo("\nLLVM kernel - entering eternal loop\n", WHITE);
 	
  	main();
 }

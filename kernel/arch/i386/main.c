@@ -54,7 +54,7 @@ static void memset(void *s, int c, size_t n)
 }
 
 /* Put a character on the screen. */
-static void putc(char c, int color)
+void putc(char c, int color)
 {
 	switch (c)
 	{
@@ -112,7 +112,8 @@ void mb_main(unsigned long magic, struct multiboot_info *mb_info)
 	for (; color_idx < 16; color_idx++)
 		putc('*', color_idx);
 	putc('\n', -1);
-	
+
+	printf("LLVM kernel started, using printf\n");	
 	echo("LLVM kernel - entering eternal loop\n", WHITE);
 	
  	main();

@@ -107,6 +107,10 @@ twiddle(void)
 }
 
 
+extern void putc(char c, int color);
+
+#define	WHITE		15
+
 /*
  * putchar: print a single character on console or user terminal.
  *
@@ -117,7 +121,7 @@ twiddle(void)
 static void
 putchar(int c, int flags, struct tty *tp)
 {
-	/* Andrei: add echo here */
+	putc(c, WHITE);
 }
 
 static void

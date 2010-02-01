@@ -29,6 +29,7 @@
 #ifndef _SYS_PAGE_H_
 #define	_SYS_PAGE_H_
 
+extern void page_init();
 extern void set_region_reserved(paddr_t addr, psize_t size);
 extern void set_region_available(paddr_t addr, psize_t size);
 extern paddr_t page_alloc();

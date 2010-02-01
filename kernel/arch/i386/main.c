@@ -28,6 +28,10 @@
 
 #include <multiboot.h>
 
+/* Physical memory addresses of the kernel */
+#define	KERNEL_START		0x100000
+#define	KERNEL_END		_end
+
 /* The video memory address. */
 #define VIDEO                   0xB8000
 

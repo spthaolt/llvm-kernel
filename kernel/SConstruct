@@ -10,6 +10,8 @@ env.Append(LINKFLAGS = ' -nostdlib -Tarch/i386/llvm-kernel.ld ')
 
 kernel_objs = env.Object(['main/main.c', 'arch/i386/main.c',
 				'arch/i386/multiboot.S',
-				'main/subr_prf.c', Glob('lib/*.c')])
+				'main/subr_prf.c', 
+				'main/page.c',
+				Glob('lib/*.c')])
 env.Program('llvm-kernel', kernel_objs)
 

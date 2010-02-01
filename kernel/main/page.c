@@ -194,6 +194,7 @@ paddr_t page_alloc() {
 }
 
 void page_free(paddr_t addr) {
+	addr &= ~PAGE_MASK;
 	set_region_available(addr, PAGE_SIZE);
 }
 

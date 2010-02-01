@@ -131,21 +131,20 @@ void mb_main(unsigned long magic, struct multiboot_info *mb_info)
 		printf("mi_mem_upper = %u KB\n", (unsigned) mb_info->mi_mem_upper);
 	}
 
-	page_init();	
+	page_init();
 	if (IS_SET(6, mb_info->mi_flags))
 	{
 		multiboot_mmap_t *crt_mmap = (multiboot_mmap_t *) mb_info->mi_mmap_addr;
 		
 		while ((unsigned) crt_mmap < mb_info->mi_mmap_addr + mb_info->mi_mmap_length) {
-			if (crt_mmap->mm_type != 1)
-				continue;
-
-			printf("Mapping region of size 0x%08x "
-			       "starting at address 0x%08x\n",
-			       (unsigned) crt_mmap->mm_length,
-			       (unsigned) crt_mmap->mm_base_addr);
-			set_region_available((paddr_t)crt_mmap->mm_base_addr,
-					     (psize_t)crt_mmap->mm_length);
+			if (crt_mmap->mm_type == 1) {
+				printf("Mapping region of size 0x%08x "
+					"starting at address 0x%08x\n",
+					(unsigned) crt_mmap->mm_length,
+					(unsigned) crt_mmap->mm_base_addr);
+				set_region_available((paddr_t)crt_mmap->mm_base_addr,
+							(psize_t)crt_mmap->mm_length);
+			}
 			crt_mmap = (multiboot_mmap_t *) ((unsigned) crt_mmap +
 			                                 crt_mmap->mm_size +
 			                                 sizeof(crt_mmap->mm_size));
@@ -154,4 +153,3 @@ void mb_main(unsigned long magic, struct multiboot_info *mb_info)
 	set_region_reserved(KERNEL_START, KERNEL_END - KERNEL_START);
  	main();
 }
-

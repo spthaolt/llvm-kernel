@@ -26,11 +26,13 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/types.h>
+#include <sys/page.h>
 #include <multiboot.h>
 
 /* Physical memory addresses of the kernel */
 #define	KERNEL_START		0x100000
-#define	KERNEL_END		_end
+#define	KERNEL_END		(uint32_t)_end
 
 /* The video memory address. */
 #define VIDEO                   0xB8000
@@ -50,6 +52,7 @@ static int line;
 static volatile unsigned char *video;
 
 extern main();
+extern void *_end;
 
 static void memset(void *s, int c, size_t n)
 {
@@ -119,8 +122,6 @@ void mb_main(unsigned long magic, struct multiboot_info *mb_info)
 		putc('*', color_idx);
 	putc('\n', -1);
 	
-	printf("LLVM kernel started, using printf: 0x%02x\n\n", 255);
-	
 	/* dump multiboot flags */
 	printf("mi_flags = 0x%x\n\n", (unsigned) mb_info->mi_flags);
 	
@@ -134,24 +135,21 @@ void mb_main(unsigned long magic, struct multiboot_info *mb_info)
 	{
 		multiboot_mmap_t *crt_mmap = (multiboot_mmap_t *) mb_info->mi_mmap_addr;
 		
-		printf("mi_mmap_addr = 0x%08x\n", (unsigned) mb_info->mi_mmap_addr);
-		printf("mi_mmap_length = %u\n\n", (unsigned) mb_info->mi_mmap_length);
-		
 		while ((unsigned) crt_mmap < mb_info->mi_mmap_addr + mb_info->mi_mmap_length) {
-			printf("mm_size = %0u ", (unsigned) crt_mmap->mm_size);
-			printf("mm_base_addr = 0x%08x ",
+			if (crt_mmap->mm_type != 1)
+				continue;
+
+			printf("Mapping region of size 0x%08x "
+			       "starting at address 0x%08x\n",
+			       (unsigned) crt_mmap->mm_length,
 			       (unsigned) crt_mmap->mm_base_addr);
-			printf("mm_length = 0x%08x ",
-			       (unsigned) crt_mmap->mm_length);
-			printf("mm_type = %u\n", crt_mmap->mm_type);
-			
+			set_region_available((paddr_t)crt_mmap->mm_base_addr,
+					     (psize_t)crt_mmap->mm_length);
 			crt_mmap = (multiboot_mmap_t *) ((unsigned) crt_mmap +
 			                                 crt_mmap->mm_size +
 			                                 sizeof(crt_mmap->mm_size));
 		}
-    }
-	
-	echo("\nLLVM kernel - entering eternal loop\n", WHITE);
-	
+	}
+	set_region_reserved(KERNEL_START, KERNEL_END - KERNEL_START);
  	main();
 }

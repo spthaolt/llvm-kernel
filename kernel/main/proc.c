@@ -31,4 +31,36 @@
 #include <sys/proc.h>
 #include <sys/queue.h>
 
+pid_t next_pid;
+struct proc proc_table[MAX_RUNNING_PROCESSES];
+struct proc *next_proc_hint;
+
+void proc_init() {
+	next_pid = 1;
+	next_proc_hint = &proc_table[0];
+}
+
+struct proc *alloc_proc() {
+	struct proc *res;
+	/* Find a free process starting from the hint */
+	for (res = next_proc_hint; res != proc_table + MAX_RUNNING_PROCESSES; res++) {
+		if (!res->pid)
+			goto found_proc;
+	}
+	/* Reached the end of the array, wrap around */
+	for (res = proc_table; res != next_proc_hint; res++) {
+		if (!res->pid)
+			goto found_proc;
+	}
+	return NULL;
+
+found_proc:
+	/* Advance the "hint" for the next search */
+	next_proc_hint = res;
+	next_proc_hint++;
+
+	res->pid = next_pid;
+	next_pid++;
+	return res;
+}
 

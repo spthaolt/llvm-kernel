@@ -29,6 +29,8 @@
 #ifndef _SYS_PROC_H_
 #define	_SYS_PROC_H_
 
+#define	MAX_RUNNING_PROCESSES		1024
+
 struct proc {
 	pid_t pid;
 };

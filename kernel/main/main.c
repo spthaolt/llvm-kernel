@@ -26,8 +26,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-int main()
-{
+int main() {
+	proc_init();
 	while (1);
 	
 	return 0;

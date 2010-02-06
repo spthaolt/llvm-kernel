@@ -1,5 +1,5 @@
 /*-
- * Processes
+ * Process management code
  *
  * Copyright (c) 2009 Andrei Homescu
  * All rights reserved.
@@ -26,12 +26,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _SYS_PROC_H_
-#define	_SYS_PROC_H_
+#include <sys/cdefs.h>
+#include <sys/types.h>
+#include <sys/proc.h>
+#include <sys/queue.h>
 
-struct proc {
-	pid_t pid;
-};
-
-#endif /* _SYS_PAGE_H_ */
 

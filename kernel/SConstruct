@@ -12,6 +12,7 @@ kernel_objs = env.Object(['main/main.c', 'arch/i386/main.c',
 				'arch/i386/multiboot.S',
 				'main/subr_prf.c', 
 				'main/page.c',
+				'main/proc.c',
 				Glob('lib/*.c')])
 env.Program('llvm-kernel', kernel_objs)
 

@@ -68,4 +68,7 @@ void proc_init() {
 	current = alloc_proc();
 }
 
+pid_t sys_getpid() {
+	return current->pid;
+}
 

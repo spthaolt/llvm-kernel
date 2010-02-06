@@ -34,11 +34,7 @@
 pid_t next_pid;
 struct proc proc_table[MAX_RUNNING_PROCESSES];
 struct proc *next_proc_hint;
-
-void proc_init() {
-	next_pid = 1;
-	next_proc_hint = &proc_table[0];
-}
+struct proc *current;
 
 struct proc *alloc_proc() {
 	struct proc *res;
@@ -63,4 +59,13 @@ found_proc:
 	next_pid++;
 	return res;
 }
+
+void proc_init() {
+	next_pid = 1;
+	next_proc_hint = &proc_table[0];
+
+	/* Allocate the first process */
+	current = alloc_proc();
+}
+
 

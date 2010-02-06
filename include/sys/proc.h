@@ -33,7 +33,10 @@
 
 struct proc {
 	pid_t pid;
+	struct proc *parent;
 };
+
+extern struct proc *current;
 
 #endif /* _SYS_PAGE_H_ */
 

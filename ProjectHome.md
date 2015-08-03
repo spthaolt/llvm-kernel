@@ -1,0 +1,1 @@
+The purpose of this project is to integrate LLVM in a simple OS kernel (written from scratch). All the binaries used by this OS will be LLVM bitcode files.
